@@ -3,7 +3,7 @@ const router = express.Router();
 const messageController = require("../app/controllers/chat/messageController");
 const messageFilter = require('../middleware/MessageFilter')
 
-router.post("/", messageFilter, messageController.sendMessage);
+router.post("/", messageController.sendMessage);
 router.get("/:chatId", messageController.getMessages);
 
 module.exports = router;
