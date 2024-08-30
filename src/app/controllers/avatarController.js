@@ -16,6 +16,38 @@ class AvatarController {
       res.json({ "error_code": 3, "message": error.message });
     }
   }
+
+  async createAvatar(req, res) {
+    try {
+      const { link, type } = req.body;
+
+      if (!link || !type) {
+        return res.status(400).json({
+          error_code: 400,
+          message: 'Link and type are required fields.',
+        });
+      }
+
+      const newAvatar = new Avatar({
+        link,
+        type,
+      });
+
+      const savedAvatar = await newAvatar.save();
+
+      res.status(201).json({
+        error_code: 0,
+        message: 'Avatar created successfully!',
+        avatar: savedAvatar,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error_code: 500,
+        message: 'Internal server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 module.exports = new AvatarController();

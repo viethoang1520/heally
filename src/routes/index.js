@@ -7,8 +7,10 @@ const chat = require('./chat')
 const message = require('./message')
 const avatar = require('./avatar')
 const star = require('./star')
+const user = require('./user')
 
 function routes(app) {
+  app.use('/user', user)
   app.use('/error', error)
   app.use('/login', login);
   app.use('/register', register);

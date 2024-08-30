@@ -3,10 +3,13 @@ const bcrypt = require("bcrypt");
 
 class LoginController {
   // Tested
-  async validate(req, res, next) {
+  async validate(req, res) {
     try {
       const { username, password } = req.body;
-      const user = await User.findOne({ username: username });
+      const user = await User.findOne({ username: username }).populate({
+        path: 'avatar',
+        select: 'link'
+      });
       if (!user) {
         let wrongUsernameMsg = "Tên người dùng hoặc mật khẩu không đúng";
         return res.json({ "error_code": 1, "message": wrongUsernameMsg });
