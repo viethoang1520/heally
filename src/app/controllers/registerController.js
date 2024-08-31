@@ -37,7 +37,8 @@ class RegisterController {
         return res.json({ "error_code": 3, "message": errors });
       }
     } catch (error) {
-      return res.json({ "error_code": 500, "message": "Lỗi máy chủ", error });
+      console.log(error)
+      return res.json({ "error_code": 500, "message":  error });
     }
   }
 
@@ -59,7 +60,7 @@ class RegisterController {
       return res.json({ "error_code": 0, "message": "Hoàn tất cập nhật thông tin" })
 
     } catch (error) {
-      return res.json({ "error_code": 500, "message": "Không thể lưu thông tin. Lỗi server" })
+      return res.json({ "error_code": 500, "message": error })
     }
   }
 }

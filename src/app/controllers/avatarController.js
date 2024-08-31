@@ -1,22 +1,37 @@
 const Avatar = require('../models/Avatar');
+const AvatarType = require('../models/AvatarType');
+
 class AvatarController {
   // Tested
-  async getAvatarsByType(req, res) {
+    async getAvatarsByType(req, res) {
+      try {
+        const { type } = req.query;
+        if (!type) {
+          return res.json({ "error_code": 1, "message": "Thiếu tham số type" });
+        }
+        const avatars = await Avatar.find({ type });
+        if (avatars.length === 0) {
+          return res.json({ "error_code": 2, "message": "Không tìm thấy avatar nào" });
+        }
+        return res.json({ "error_code": 0, "message": avatars });
+      } catch (error) {
+        res.json({ "error_code": 3, "message": error.message });
+      }
+    }
+
+  async getAvatarTypes(req, res) {
     try {
-      const { type } = req.query;
-      if (!type) {
-        return res.json({ "error_code": 1, "message": "Thiếu tham số type" });
+      const types = await AvatarType.find();
+      if (types.length === 0) {
+        return res.json({ "error_code": 2, "message": "Không tìm thấy loại avatar nào" });
       }
-      const avatars = await Avatar.find({ type });
-      if (avatars.length === 0) {
-        return res.json({ "error_code": 2, "message": "Không tìm thấy avatar nào" });
-      }
-      return res.json({ "error_code": 0, "message": avatars });
+      return res.json({ "error_code": 0, "message": types });
     } catch (error) {
-      res.json({ "error_code": 3, "message": error.message });
+      return res.json({ "error_code": 3, "message": error.message });
     }
   }
 
+  // admin function
   async createAvatar(req, res) {
     try {
       const { link, type } = req.body;

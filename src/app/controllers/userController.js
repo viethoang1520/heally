@@ -7,7 +7,15 @@ class UserController {
       if (!userID) {
         return res.json({ "error_code": 1, "message": "Thiếu ID người dùng" });
       }
-      const user = await User.findById(userID);
+      const user = await User.findById(userID)
+        .populate({
+          path: 'avatar',
+          select : 'link'
+        })
+        .populate({
+          path: 'star',
+          select:'totalStars ratingCount'
+        });
       if (!user) {
         return res.json({ "error_code": 2, "message": "Không tìm thấy người dùng" });
       }

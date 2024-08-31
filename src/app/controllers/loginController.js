@@ -9,7 +9,12 @@ class LoginController {
       const user = await User.findOne({ username: username }).populate({
         path: 'avatar',
         select: 'link'
-      });
+      })
+        .populate({
+          path: 'star',
+          select: 'totalStars ratingCount'
+        })
+        ;
       if (!user) {
         let wrongUsernameMsg = "Tên người dùng hoặc mật khẩu không đúng";
         return res.json({ "error_code": 1, "message": wrongUsernameMsg });
