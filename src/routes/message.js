@@ -4,6 +4,6 @@ const messageController = require("../app/controllers/chat/messageController");
 const messageFilter = require('../middleware/MessageFilter')
 
 router.post("/", messageController.sendMessage);
-router.get("/:chatId", messageController.getMessages);
+router.get("/", messageController.getMessages);
 
 module.exports = router;
