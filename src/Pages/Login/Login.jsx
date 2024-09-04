@@ -1,6 +1,6 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import classNames from 'classnames';
-import { memo, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../apis/authentication';
@@ -56,7 +56,7 @@ function Login() {
                toast.error(loginError.msg);
           }
 
-     }, [loginError])
+     }, [loginError]);
 
      useEffect(() => {
           if (formData.password !== '' && formData.username !== '') {
@@ -121,4 +121,5 @@ function Login() {
           </div>
      );
 }
-export default memo(Login);
+
+export default Login;

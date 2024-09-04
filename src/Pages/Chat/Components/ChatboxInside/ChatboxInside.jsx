@@ -2,7 +2,8 @@ import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollableFeed from 'react-scrollable-feed';
-import { io } from 'socket.io-client';
+import propTypes from 'prop-types';
+// import { io } from 'socket.io-client';
 import { getChatMessage, sendMessage } from "../../../../apis/message";
 import OnTyping from "../../../../Components/OnTyping/OnTyping";
 import { AppContext } from "../../../../Context/AppContext";
@@ -10,38 +11,13 @@ import { ChatContext } from "../../../../Context/ChatContext";
 import './ChatboxInside.scss';
 import ChatContent from "./ChatContent/ChatContent";
 
-const URL = import.meta.env.VITE_APP_API_URL;
-
-function ChatboxInside() {
-     const socketRef = useRef();
+function ChatboxInside({ socketRef }) {
      let selectChatCompare = useRef(null);
      const [listMessage, setListMessage] = useState([]);
      const { userLogin } = useContext(AppContext);
-     const { room, oppositeUser } = useContext(ChatContext);
+     const { room, oppositeUser, setNewMessage, newMessage } = useContext(ChatContext);
      const [isTyping, setIsTyping] = useState(false);
      const [textMsg, setTextMsg] = useState("");
-
-     useEffect(() => {
-          socketRef.current = io(URL);
-
-          return () => {
-               socketRef.current.disconnect();
-          }
-     }, []);
-
-     useEffect(() => {
-          if (room) {
-               socketRef.current.emit("setup", userLogin);
-               socketRef.current.on("connected", () => {
-                    console.log("Connected");
-               });
-          }
-
-          return () => {
-               socketRef.current.disconnect();
-               console.log("Socket disconnected");
-          }
-     }, []);
 
      const handleTypingMsg = (e) => {
           setTextMsg(e.target.value);
@@ -52,35 +28,45 @@ function ChatboxInside() {
           // }
      };
 
-     //partnerID: , stars:  
-
-     useEffect(() => {
-          socketRef.current.on("message received", (newMess) => {
-               // console.log('room in: ' + room);
-               console.log('chat compare: ' + selectChatCompare.current);
-               console.log(newMess);
-               if (newMess.chatID._id == selectChatCompare.current) {
-                    setListMessage(prevListMessage => [...prevListMessage, { message: newMess.message, sender: { _id: newMess.sender._id } }]);
-               }
-          });
-     }, []);
-
      // useEffect(() => {
-     //      socketRef.current.on("typing", () => {
-     //           setIsTyping(true);
-     //      });
-     //      socketRef.current.on("stop typing", () => {
-     //           setIsTyping(false);
+     //      socketRef.on("message received", (newMess) => {
+     //           // console.log('room in: ' + room);
+     //           console.log('chat compare: ' + selectChatCompare.current);
+     //           console.log(newMess);
+     //           if (newMess.chatID._id == selectChatCompare.current) {
+     //                setListMessage(prevListMessage => [...prevListMessage, { message: newMess.message, sender: { _id: newMess.sender._id } }]);
+     //           }
      //      });
      // }, []);
+
+     useEffect(() => {
+          if (newMessage) {
+               if (newMessage.sender._id != userLogin._id) {
+                    if (newMessage.chatID._id == selectChatCompare.current) {
+                         setListMessage(prevListMessage => [...prevListMessage, { message: newMessage.message, sender: { _id: newMessage.sender._id } }]);
+                    }
+               }
+
+          }
+     }, [newMessage, userLogin]);
+
+     useEffect(() => {
+          socketRef.on("typing", () => {
+               setIsTyping(true);
+          });
+          socketRef.on("stop typing", () => {
+               setIsTyping(false);
+          });
+     }, []);
 
      const handleSendMsg = async (e) => {
           e.preventDefault();
           if (textMsg != '') {
                setListMessage([...listMessage, { message: textMsg, sender: { _id: userLogin._id } }]);
+               setNewMessage({ message: textMsg, sender: { _id: userLogin._id }, chatID: { _id: room } });
                const { data } = await sendMessage(userLogin._id, room, textMsg);
-               socketRef.current.emit("new message", data.message);
-               socketRef.current.emit('stop typing', oppositeUser.userId);
+               socketRef.emit("new message", data.message);
+               socketRef.emit('stop typing', oppositeUser.userId);
                setTextMsg('');
           }
      }
@@ -92,7 +78,7 @@ function ChatboxInside() {
           }
           if (room) {
                fetchMessage(room);
-               socketRef.current.emit("join room", room);
+               socketRef.emit("join room", room);
           }
           selectChatCompare.current = room;
      }, [room]);
@@ -113,7 +99,7 @@ function ChatboxInside() {
                </div>
 
                <div className="content">
-                    <ScrollableFeed className="scrollable-feed">
+                    <ScrollableFeed className="scrollable-feed" forceScroll startScrolledAtBottom>
                          {listMessage.map((msg, index) => {
                               return (
                                    <div key={index}>
@@ -151,3 +137,7 @@ function ChatboxInside() {
 }
 
 export default ChatboxInside;
+
+ChatboxInside.propTypes = {
+     socketRef: propTypes.any
+}

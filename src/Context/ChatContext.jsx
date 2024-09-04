@@ -6,9 +6,10 @@ export const ChatContext = createContext();
 export function ChatProvider({ children }) {
      const [room, setRoom] = useState('');
      const [oppositeUser, setOppositeUser] = useState({});
+     const [newMessage, setNewMessage] = useState();
 
      return (
-          <ChatContext.Provider value={{ room, setRoom, oppositeUser, setOppositeUser }}>
+          <ChatContext.Provider value={{ room, setRoom, oppositeUser, setOppositeUser, newMessage, setNewMessage }}>
                {children}
           </ChatContext.Provider>
      );

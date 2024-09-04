@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { memo, useContext } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { DefaultAvatar } from '../../../../../assets/avatar/index';
 import { AppContext } from '../../../../../Context/AppContext';
 import { ChatContext } from '../../../../../Context/ChatContext';
@@ -8,13 +8,19 @@ import './BoxchatUser.scss';
 
 function BoxchatUser({ avatarLink, name, lastMsg, statusRead, statusOnline, time, roomId, userId, rating }) {
 
-     const { room, setRoom, setOppositeUser } = useContext(ChatContext);
+     const { room, setRoom, setOppositeUser, newMessage } = useContext(ChatContext);
      const { userLogin } = useContext(AppContext);
      const date = new Date(time);
      const timeProcessed = `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}`;
+     const [lastMessage, setLastMessage] = useState(lastMsg.message);
 
-     console.log('re-render')
-
+     useEffect(() => {
+          if (newMessage && newMessage.chatID._id == roomId) {
+               console.log(newMessage);
+               setLastMessage(`${newMessage.sender._id == userLogin._id ? 'Bạn: ' : ''} ${newMessage.message}`);
+          }
+     }, [newMessage, userLogin, roomId]);
+     
      const handleSelectChat = () => {
           setRoom(roomId);
           setOppositeUser({ avatarLink, name, userId, rating });
@@ -31,7 +37,7 @@ function BoxchatUser({ avatarLink, name, lastMsg, statusRead, statusOnline, time
                </div>
                <div className="text-block">
                     <h1 className="name">{name}</h1>
-                    <p className="last-msg">{lastMsg.sender._id == userLogin._id ? 'Bạn: ' : ""}{lastMsg.message}</p>
+                    <p className="last-msg">{lastMessage}</p>
                </div>
                <div className="more-block">
                     <p className="time">{timeProcessed}</p>

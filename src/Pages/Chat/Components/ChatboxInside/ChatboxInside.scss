@@ -1,18 +1,15 @@
 .chatbox-inside {
      width: 100%;
-     // padding: 20px;
      border-radius: 15px;
      background-color: rgba(201, 201, 201, 0.304);
      box-shadow: 0 0 20px 0.5px rgba(128, 128, 128, 0.167);
-     // border: 0.5px solid rgba(128, 128, 128, 0.047);
-     animation: popOver 0.2s ease forwards;
+     // animation: popOver 0.2s ease forwards;
 
      .top-navbar {
           display: flex;
           justify-content: space-between;
           background-color: rgb(255, 255, 255);
           border-radius: 15px 15px 0 0;
-          // margin: 0 -15px 0 -15px;
           align-items: center;
           padding: 10px 0;
 
