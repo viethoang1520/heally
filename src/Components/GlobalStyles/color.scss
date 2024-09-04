@@ -1,0 +1,46 @@
+// // LIGHT COLOR:
+// $mint-of-spring: #b3eda9;
+// $scandinavian-clovers: #ebfadb;
+// $green-light: #80ed99;
+
+// $primary-color-light: #80ed99;
+
+
+// $text-color-primary: #333333; 
+
+// $text-dark-grey: #333333e8;
+$red: #e74c3c;
+
+// // DARK COLOR:
+// // $aquamarine: #105d5e;
+// $pine-shade: #293e33;
+$dark-grey: #767f7d;
+$light-grey: #c2cbc9;
+
+// // OTHER:
+// $neo-solar: #e8e300;
+
+.App {
+     &.light-theme {
+          --text-color: #333333;
+          --theme-color-primary: #80ed99;
+          // --theme-color-primary: #5d8f0c;
+          --bg-color: #fff;
+     }
+
+     &.dark-theme {
+          --text-color: #fff;
+          --primary-color: #80ed99;
+          --bg-color: #333;
+     }
+}
+
+$text-color: var(--text-color);
+$text-muted-color: grey;
+$theme-color-primary: var(--theme-color-primary);
+$error-color: red;
+$success-color: green;
+$warning-color: yellow;
+$active-color: grey;
+$hover-color: grey;
+$bg-color: var(--bg-color);

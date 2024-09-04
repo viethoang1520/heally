@@ -1,0 +1,70 @@
+@import '../GlobalStyles/color.scss';
+
+.header {
+     z-index: 10;
+     display: flex;
+     flex-direction: column;
+     justify-content: space-between;
+     position: fixed;
+     height: 100vh;
+     border-right: 1px solid rgba(97, 92, 92, 0.236);
+     align-items: center;
+     // width: px;
+     
+     .link-logo {
+          z-index: 10;
+          .logo-img {
+               width: 50px;
+          }
+     }
+
+     .navbar-list {
+          // height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 30px;
+
+          .navbar-item {                                                                                                                                                                                                                                                                               
+               position: relative;
+
+               .navbar-item-link {
+                    .icon {
+                         color: $text-color;
+                         text-decoration: none;
+                         font-size: 3rem;
+                         opacity: 70%;
+                         padding: 5px;
+                         border-radius: 10px;
+                         transition: 0.2s;
+
+                         &:hover {
+                              background-color: #cbf55882;
+                              color: #5d8f0c;
+                              opacity: 100%;
+                              transform: scale(1.04);
+                         }
+                    }
+
+                    &.active {
+                         .icon {
+                              background-color: #cbf55882;
+                              color: #5d8f0c;
+                              opacity: 100%;
+                         }
+
+                         &:after {
+                              content: "|";
+                              font-size: 3.8rem;
+                              position: absolute;
+                              top: -4px;
+                              right: -9px;
+                              color: green;
+                              border-radius: 50%;
+                         }
+                    }
+               }
+          }
+     }
+}

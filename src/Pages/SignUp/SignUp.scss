@@ -1,0 +1,173 @@
+@import '../../Components/GlobalStyles/color.scss';
+
+.sign-up-page {
+     height: 100vh;
+     width: 100vw;
+     display: flex;
+     align-items: center;
+     transition: 0.2s;
+
+     .sign-up-form {
+          background-color: rgb(255, 255, 255);
+          border-radius: 12px;
+          box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.132);
+          border: 1px solid rgba(209, 213, 219, 0.3);
+          width: 450px;
+          height: 600px;
+          margin: 0 auto;
+          padding: 5px 0;
+          text-align: center;
+          border-bottom: 6px solid $theme-color-primary;
+
+          .logo {
+               width: 100px;
+          }
+
+          .title {
+               font-size: 2.7rem;
+               font-weight: 700;
+               margin-bottom: 20px;
+               // color: $text-dark-grey;
+               color: $text-color;
+               // color: var(--text1);
+          }
+
+          .input-block {
+               position: relative;
+               margin: 13px 0;
+
+               .label {
+                    position: absolute;
+                    top: 0px;
+                    color: $light-grey;
+                    font-size: 1.5rem;
+               }
+
+               .input {
+                    width: 80%;
+                    height: 40px;
+                    border: none;
+                    border-bottom: 1.5px solid $light-grey;
+                    transition: 0.1s;
+                    margin: 12px 0;
+                    padding-right: 30px;
+
+                    &:focus {
+                         outline: none;
+                         border-bottom: 3px solid $theme-color-primary;
+
+                         &~.text-desc-pass {
+                              display: block;
+                         }
+                    }
+               }
+
+               .icon {
+                    font-size: 2.3rem;
+                    position: absolute;
+                    bottom: 30px;
+                    right: 50px;
+                    cursor: pointer;
+
+                    &.hide {
+                         display: none;
+                    }
+
+                    &.confirm-wrong {
+                         color: red;
+                         opacity: 90%;
+                    }
+
+                    &.confirm-correct {
+                         color: green;
+                         display: none;
+                    }
+               }
+
+               .incorrect-msg {
+                    position: absolute;
+                    font-size: 1.3rem;
+                    width: 300px;
+                    top: 57px;
+                    right: 45px;
+                    text-align: right;
+                    color: $red;
+                    font-weight: 500;
+               }
+
+               .text-desc-pass {
+                    display: none;
+                    position: absolute;
+                    bottom: -15px;
+                    right: 50px;
+                    font-size: 1.2rem;
+                    opacity: 80%;
+               }
+
+               &.incorrect {
+                    .input {
+                         border-bottom: 3px solid $red;
+                    }
+
+                    .label {
+                         color: $red;
+                    }
+               }
+          }
+
+          .button-sign-up {
+               border: none;
+               width: 80%;
+               background-color: $theme-color-primary;
+               padding: 15px 0;
+               font-weight: 500;
+               font-size: 2rem;
+               color: #fff;
+               transition: 0.2s;
+               margin: 7px;
+               border-radius: 12px;
+
+               &.disable {
+                    opacity: 60%;
+                    cursor: not-allowed;
+
+                    &:hover {
+                         opacity: 60%;
+                    }
+               }
+
+               &:hover {
+                    opacity: 80%;
+               }
+          }
+
+          .login-text {
+               margin: 10px 0;
+
+               .login-link {
+                    text-decoration: none;
+                    color: $theme-color-primary;
+               }
+          }
+     }
+
+     &.gradient-background {
+          background: linear-gradient(280deg, #91eaaf8c, #2e6d41ab, #c2e95690, #80ed9991, #b3eda9, #e8e400af, #62a32cb2, #9de95ea3, #35c46090);
+          background-size: 540% 540%;
+          animation: gradient-animation 40s ease infinite;
+     }
+
+     @keyframes gradient-animation {
+          0% {
+               background-position: 0% 50%;
+          }
+
+          50% {
+               background-position: 100% 50%;
+          }
+
+          100% {
+               background-position: 0% 50%;
+          }
+     }
+}

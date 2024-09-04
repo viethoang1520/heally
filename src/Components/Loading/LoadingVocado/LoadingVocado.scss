@@ -1,0 +1,36 @@
+@import '../../GlobalStyles/color.scss';
+
+.loading-vocado {
+     width: 100vw;
+     height: 100vh;
+     position: absolute;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: #333333b3;
+     z-index: 999;
+
+     background: rgba(255, 255, 255, 0.2);
+     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0);
+     backdrop-filter: blur(1px);
+     -webkit-backdrop-filter: blur(1px);
+
+     .logo-loading {
+          width: 60px;
+          // border-radius: 50%;
+          // padding: 10px;
+          // border: 2px solid $primary-color-light;
+          animation: loading 0.8s ease infinite;
+     }
+
+     @keyframes loading {
+          from {
+               transform: rotate(0turn);
+          }
+
+          to {
+               transform: rotate(1turn);
+          }
+     }
+
+}

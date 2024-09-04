@@ -1,0 +1,49 @@
+@import '../../../../Components/GlobalStyles/color.scss';
+
+.user-card {
+     height: 500px;
+     background-color: rgb(232, 232, 232);
+     border-radius: 10px;
+     box-shadow: 0 0 10px 5px rgba(128, 128, 128, 0.304);
+     padding: 20px;
+     display: flex;
+     flex-direction: column;
+     margin-top: 20px;
+
+     .avatar {
+          align-self: center;
+          border-radius: 50%;
+          width: 50%;
+     }
+
+     .fullname {
+          text-align: center;
+          font-size: 2rem;
+          font-weight: 500;
+          margin-top: 20px;
+          white-space: no-wrap;
+     }
+
+     .nickname {
+          text-align: center;
+     }
+
+     .info-block {
+          padding: 0 20px;
+          .info {
+               font-weight: 400;
+               color: $dark-grey;
+               font-size: 1.6rem;
+               margin: 15px 20px;
+               position: relative;
+               
+               .icon {
+                    font-size: 2rem;
+                    position: absolute;
+                    left: -25px;
+                    top: -2px;
+               }
+          }
+     }
+
+}

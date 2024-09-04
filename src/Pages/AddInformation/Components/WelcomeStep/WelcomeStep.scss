@@ -1,0 +1,74 @@
+@import '../../../../Components/GlobalStyles/color.scss';
+
+.welcome-step {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+
+     .title {
+          font-size: 3rem;
+          font-weight: 400;
+     }
+
+     .sub-title {
+          font-size: 2rem;
+          font-weight: 300;
+          margin-top: 30px;
+     }
+
+     .button-start {
+          margin-top: 30px;
+          position: relative;
+          font-size: 14px;
+          letter-spacing: 3px;
+          height: 3em;
+          padding: 0 3em;
+          border: none;
+          background-color: $theme-color-primary;
+          color: #fff;
+          text-transform: uppercase;
+          overflow: hidden;
+          border-radius: 5px; 
+
+          &::before {
+               content: '';
+               display: block;
+               position: absolute;
+               z-index: 0;
+               bottom: 0;
+               left: 0;
+               height: 0px;
+               width: 100%;
+               background: rgb(196, 27, 84);
+               background: linear-gradient(90deg, rgba(196, 27, 84, 1) 20%, rgba(124, 7, 46, 1) 100%);
+               transition: 0.2s;
+          }
+
+          .label {
+               position: relative;
+               font-weight: 600;
+          }
+
+          .icon {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               height: 3em;
+               width: 3em;
+               position: absolute;
+               top: 3em;
+               right: 0;
+               opacity: 0;
+               transition: 0.4s;
+          }
+
+          &:hover::before {
+               height: 100%;
+          }
+
+          &:hover .icon {
+               top: 0;
+               opacity: 1;
+          }
+     }
+}

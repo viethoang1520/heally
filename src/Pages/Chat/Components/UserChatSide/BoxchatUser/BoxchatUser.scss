@@ -1,0 +1,88 @@
+.boxchat-user {
+     display: flex;
+     width: 95%;
+     border-radius: 10px;
+     margin: 10px 4px;
+     background-color: rgba(191, 185, 185, 0.118);
+     padding: 9px 4px;
+     backdrop-filter: blur(5px);
+     transition: 0.2s;
+     box-shadow: 0 2px 2px 0 rgba(91, 91, 91, 0.082);
+     cursor: pointer;
+
+     .avatar-block {
+          position: relative;
+          margin: 0 15px;
+
+          .avatar-img {
+               width: 50px;
+               border-radius: 50%;
+          }
+
+          .status-online {
+               font-size: 7rem;
+               color: rgb(0, 193, 0);
+               position: absolute;
+               bottom: 2px;
+               right: -2px;
+          }
+     }
+
+     .text-block {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+          width: 100%;
+
+          .name {
+               font-weight: 600;
+               font-size: 1.8rem;
+               width: 70%;
+               overflow: hidden;
+               text-overflow: ellipsis;
+               white-space: nowrap;
+               line-height: 1.5;
+          }
+
+          .last-msg {
+               font-size: 1.3rem;
+               font-weight: 400;
+               width: 60%;
+               overflow: hidden;
+               text-overflow: ellipsis;
+               white-space: nowrap;
+               line-height: 1.5;
+               opacity: 85%;
+          }
+     }
+
+     .more-block {
+          right: 6px;
+          top: 8px;
+
+          .time {
+               font-size: 1rem;
+               position: absolute;
+               right: 10px;
+          }
+
+          .unread {
+               font-size: 7.3rem;
+               line-height: 0;
+               color: rgb(37, 179, 1);
+               position: absolute;
+               right: 10px;
+               top: 12px;
+          }
+     }
+
+     &:hover {
+          transform: translateX(5px);
+          box-shadow: 0 0 10px 1px rgba(69, 69, 69, 0.186);
+     }
+
+     &.current {
+          background-color: #ffe38d;
+     }
+}

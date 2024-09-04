@@ -1,0 +1,45 @@
+.chat-content {
+     display: grid;
+     width: 100%;
+     position: relative;
+
+     .text-box {
+          font-size: 1.6rem;
+          background-color: grey;
+          padding: 8px 10px 10px 10px;
+          display: block;
+          margin: 4px;
+          overflow-wrap: anywhere;
+          max-width: 450px;
+          line-height: 1.5;
+
+          &.receive {
+               background-color: white;
+               justify-self: flex-start;
+               border-radius: 0px 15px 15px 15px;
+          }
+
+          &.send {
+               background-color: rgba(0, 255, 13, 0.247);
+               justify-self: flex-end;
+               border-radius: 15px 0px 15px 15px;
+          }
+     }
+
+     .time {
+          position: absolute;
+          font-size: 1rem;
+          opacity: 80%;
+          // display: none;
+
+          &.receive {
+               left: 8px;
+               bottom: -10px;
+          }
+
+          &.send {
+               right: 14px;
+               bottom: 10px;
+          }
+     }
+}
