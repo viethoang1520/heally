@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ChatProvider } from './Context/ChatContext.jsx';
 import { AppProvider } from './Context/AppContext.jsx';
+import { Toaster } from 'sonner';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.Fragment>
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <GlobalStyles>
             <App />
           <ToastContainer position="top-center" hideProgressBar limit={3} />
+          <Toaster />
         </GlobalStyles>
       </ChatProvider>
     </AppProvider>

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { memo, useContext, useEffect, useState } from 'react';
+import { memo, useCallback, useContext, useEffect, useState } from 'react';
 import { DefaultAvatar } from '../../../../../assets/avatar/index';
 import { AppContext } from '../../../../../Context/AppContext';
 import { ChatContext } from '../../../../../Context/ChatContext';
@@ -21,10 +21,10 @@ function BoxchatUser({ avatarLink, name, lastMsg, statusRead, statusOnline, time
           }
      }, [newMessage, userLogin, roomId]);
      
-     const handleSelectChat = () => {
+     const handleSelectChat = useCallback(() => {
           setRoom(roomId);
           setOppositeUser({ avatarLink, name, userId, rating });
-     }
+     }, [roomId, avatarLink, name, userId, rating, setOppositeUser, setRoom]);
 
      return (
           <div

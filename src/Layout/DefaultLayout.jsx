@@ -5,8 +5,8 @@ import { Col, Row } from 'antd';
 function DefaultLayout({ children }) {
      return (
           <Row>
-               <Col span={1}><Header /></Col>
-               <Col span={23}>{children}</Col>
+               <Col flex="60px"><Header /></Col>
+               <Col flex="auto">{children}</Col>
           </Row>
 
      );

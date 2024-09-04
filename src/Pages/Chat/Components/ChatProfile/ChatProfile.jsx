@@ -2,15 +2,13 @@ import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import { Link } from 'react-router-dom';
 import { DefaultAvatar } from '../../../../assets/avatar';
 import './ChatProfile.scss';
-import { useContext, useState } from 'react';
+import { memo, useContext, useState } from 'react';
 import { ChatContext } from '../../../../Context/ChatContext';
 import { Flex, Modal, Rate, Typography, Input, Button } from 'antd';
 import { ratingUser } from '../../../../apis/chat';
 import { toast } from 'react-toastify';
 
 function ChatProfile() {
-     const { Text } = Typography;
-
      const { oppositeUser } = useContext(ChatContext);
      const [isModalOpen, setIsModalOpen] = useState(false);
      const [star, setStar] = useState();
@@ -33,7 +31,6 @@ function ChatProfile() {
                } else {
                     toast.error(data.message);
                }
-
           } else {
                toast.error("Vui lòng chọn ít nhất 1 sao");
           }
@@ -45,7 +42,7 @@ function ChatProfile() {
      return (
           <div className="chat-profile">
                <Modal title="Đánh giá người dùng" footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                    <Text type="secondary">Bạn cảm thấy người dùng này trò chuyện thế nào?</Text>
+                    <Typography.Text type="secondary">Bạn cảm thấy người dùng này trò chuyện thế nào?</Typography.Text>
                     <Flex justify='center' style={{ margin: '40px 0' }}>
                          <Rate style={{ fontSize: '3rem' }} tooltips={desc} onChange={setStar} value={star} />
                     </Flex>
@@ -85,4 +82,4 @@ function ChatProfile() {
      );
 }
 
-export default ChatProfile;
+export default memo(ChatProfile);

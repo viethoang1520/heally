@@ -5,7 +5,7 @@ import './Header.scss';
 import mainLogo from '../../assets/logo-heally.png';
 import { toast } from 'react-toastify';
 import { Modal } from 'antd';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 
 function Header() {
      
@@ -112,4 +112,4 @@ function Header() {
      );
 }
 
-export default Header;
+export default memo(Header);

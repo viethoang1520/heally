@@ -1,5 +1,5 @@
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
-import { useContext, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollableFeed from 'react-scrollable-feed';
 import propTypes from 'prop-types';
@@ -19,25 +19,19 @@ function ChatboxInside({ socketRef }) {
      const [isTyping, setIsTyping] = useState(false);
      const [textMsg, setTextMsg] = useState("");
 
-     const handleTypingMsg = (e) => {
-          setTextMsg(e.target.value);
-          // if (e.target.value == "" && isTyping) {
-          //      socketRef.current.emit('stop typing', room);
-          // } else if (e.target.value != "" && !isTyping) {
-          //      socketRef.current.emit('typing', room);
-          // }
-     };
+     const [checkIsTyping, setCheckIsTyping] = useState(false);
 
-     // useEffect(() => {
-     //      socketRef.on("message received", (newMess) => {
-     //           // console.log('room in: ' + room);
-     //           console.log('chat compare: ' + selectChatCompare.current);
-     //           console.log(newMess);
-     //           if (newMess.chatID._id == selectChatCompare.current) {
-     //                setListMessage(prevListMessage => [...prevListMessage, { message: newMess.message, sender: { _id: newMess.sender._id } }]);
-     //           }
-     //      });
-     // }, []);
+     const handleTypingMsg = useCallback((e) => {
+          setTextMsg(e.target.value);
+
+          if (e.target.value != '' && !checkIsTyping) {
+               socketRef.emit('typing', room);
+               setCheckIsTyping(true);
+          } else if (e.target.value == '' && checkIsTyping) {
+               socketRef.emit('stop typing', room);
+               setCheckIsTyping(false);
+          }
+     }, [checkIsTyping, setCheckIsTyping, socketRef, room]);
 
      useEffect(() => {
           if (newMessage) {
@@ -46,18 +40,21 @@ function ChatboxInside({ socketRef }) {
                          setListMessage(prevListMessage => [...prevListMessage, { message: newMessage.message, sender: { _id: newMessage.sender._id } }]);
                     }
                }
-
           }
      }, [newMessage, userLogin]);
 
      useEffect(() => {
-          socketRef.on("typing", () => {
-               setIsTyping(true);
-          });
-          socketRef.on("stop typing", () => {
-               setIsTyping(false);
-          });
-     }, []);
+          if (socketRef) {
+               socketRef.on("typing", () => {
+                    console.log('typing')
+                    setIsTyping(true);
+               });
+               socketRef.on("stop typing", () => {
+                    console.log('stop')
+                    setIsTyping(false);
+               });
+          }
+     }, [socketRef]);
 
      const handleSendMsg = async (e) => {
           e.preventDefault();
@@ -66,8 +63,9 @@ function ChatboxInside({ socketRef }) {
                setNewMessage({ message: textMsg, sender: { _id: userLogin._id }, chatID: { _id: room } });
                const { data } = await sendMessage(userLogin._id, room, textMsg);
                socketRef.emit("new message", data.message);
-               socketRef.emit('stop typing', oppositeUser.userId);
                setTextMsg('');
+               socketRef.emit('stop typing', room);
+               setCheckIsTyping(false);
           }
      }
 
@@ -78,10 +76,12 @@ function ChatboxInside({ socketRef }) {
           }
           if (room) {
                fetchMessage(room);
-               socketRef.emit("join room", room);
+               if (socketRef) {
+                    socketRef.emit("join room", room);
+               }
           }
           selectChatCompare.current = room;
-     }, [room]);
+     }, [room, socketRef]);
 
      return (
           <div className="chatbox-inside">
@@ -136,7 +136,7 @@ function ChatboxInside({ socketRef }) {
      );
 }
 
-export default ChatboxInside;
+export default memo(ChatboxInside);
 
 ChatboxInside.propTypes = {
      socketRef: propTypes.any
