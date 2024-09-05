@@ -6,7 +6,7 @@ import { memo, useContext, useState } from 'react';
 import { ChatContext } from '../../../../Context/ChatContext';
 import { Flex, Modal, Rate, Typography, Input, Button } from 'antd';
 import { ratingUser } from '../../../../apis/chat';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 function ChatProfile() {
      const { oppositeUser } = useContext(ChatContext);

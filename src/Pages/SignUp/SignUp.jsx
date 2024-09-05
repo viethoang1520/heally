@@ -8,21 +8,21 @@ import logo from '../../assets/logo-with-text.png';
 import { LoadingVocado } from '../../Components';
 import './SignUp.scss';
 import { Flex, Progress } from 'antd';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 function SignUp() {
      const navigate = useNavigate()
-     const [showLoading, setShowLoading] = useState(false)
-     const [errorCode, setErrorCode] = useState({ code: '', msg: '' })
-     const [isValidate, setIsValidate] = useState(false)
-     const [formData, setFormData] = useState({ username: '', name: '', password: '', confirmPassword: '' })
-     const [showPassword, setShowPassword] = useState(false)
-     const [checkConfirmPassword, setCheckConfirmPasswrord] = useState(true)
-     const testPasswordScore = zxcvbn(formData.password).score
-     const testPasswordProgess = (zxcvbn(formData.password).score * 100 / 4)
+     const [showLoading, setShowLoading] = useState(false);
+     const [errorCode, setErrorCode] = useState({ code: '', msg: '' });
+     const [isValidate, setIsValidate] = useState(false);
+     const [formData, setFormData] = useState({ username: '', name: '', password: '', confirmPassword: '' });
+     const [showPassword, setShowPassword] = useState(false);
+     const [checkConfirmPassword, setCheckConfirmPasswrord] = useState(true);
+     const testPasswordScore = zxcvbn(formData.password).score;
+     const testPasswordProgess = (zxcvbn(formData.password).score * 100 / 4);
 
      const handleChangeInput = (e) => {
-          setFormData({ ...formData, [e.target.name]: e.target.value })
+          setFormData({ ...formData, [e.target.name]: e.target.value });
      }
 
      const checkStatusPassword = () => {
@@ -48,10 +48,10 @@ function SignUp() {
      }
 
      const handleSignUp = async (e) => {
-          e.preventDefault()
-          setShowLoading(true)
+          e.preventDefault();
+          setShowLoading(true);
           if (isValidate) {
-               const res = await registerUser(formData)
+               const res = await registerUser(formData);
                console.log(res);
                if (res.data.error_code == 0) {
                     toast.success('Đăng ký tài khoản thành công!');

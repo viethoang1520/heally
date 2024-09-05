@@ -2,12 +2,12 @@ import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { loginUser } from '../../apis/authentication';
 import Logo from '../../assets/logo-with-text.png';
 import { LoadingVocado } from '../../Components';
 import { AppContext } from '../../Context/AppContext';
 import './Login.scss';
+import { toast } from 'sonner';
 
 function Login() {
      const navigate = useNavigate();

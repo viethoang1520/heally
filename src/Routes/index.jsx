@@ -1,8 +1,10 @@
 import { AddFriend, Vocado, Chat, FriendsView, Profile, SignUp, Login, Notification } from "../Pages";
 import AddInformation from "../Pages/AddInformation/AddInformation";
+import GetStarted from "../Pages/GetStarted/GetStarted";
 import PrivateRouteComponent from "./PrivateRouteComponent";
 
 const publicRoutes = [
+     { path: '/', component: GetStarted, layout: null },
      { path: '/signup', component: SignUp, layout: null },
      { path: '/login', component: Login, layout: null }
 ]

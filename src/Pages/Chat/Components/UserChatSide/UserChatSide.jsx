@@ -63,6 +63,7 @@ function UserChatSide() {
                               className="input-block"
                               placeholder="Tìm kiếm người dùng"
                               onChange={(e) => setSearch(e.target.value)}
+                              spellCheck={false}
                          />
                          <Icon icon="material-symbols:search" className="icon" />
                     </div>

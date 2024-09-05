@@ -19,19 +19,19 @@ function ChatboxInside({ socketRef }) {
      const [isTyping, setIsTyping] = useState(false);
      const [textMsg, setTextMsg] = useState("");
 
-     const [checkIsTyping, setCheckIsTyping] = useState(false);
+     // const [checkIsTyping, setCheckIsTyping] = useState(false);
 
      const handleTypingMsg = useCallback((e) => {
           setTextMsg(e.target.value);
 
-          if (e.target.value != '' && !checkIsTyping) {
-               socketRef.emit('typing', room);
-               setCheckIsTyping(true);
-          } else if (e.target.value == '' && checkIsTyping) {
-               socketRef.emit('stop typing', room);
-               setCheckIsTyping(false);
-          }
-     }, [checkIsTyping, setCheckIsTyping, socketRef, room]);
+          // if (e.target.value != '' && !checkIsTyping) {
+          //      socketRef.emit('typing', room);
+          //      setCheckIsTyping(true);
+          // } else if (e.target.value == '' && checkIsTyping) {
+          //      socketRef.emit('stop typing', room);
+          //      setCheckIsTyping(false);
+          // }
+     }, []);
 
      useEffect(() => {
           if (newMessage) {
@@ -65,7 +65,7 @@ function ChatboxInside({ socketRef }) {
                socketRef.emit("new message", data.message);
                setTextMsg('');
                socketRef.emit('stop typing', room);
-               setCheckIsTyping(false);
+               // setCheckIsTyping(false);
           }
      }
 
@@ -124,6 +124,8 @@ function ChatboxInside({ socketRef }) {
                               className="input"
                               placeholder="Nhập tin nhắn ở đây...."
                               onChange={(e) => handleTypingMsg(e)}
+                              autoFocus
+                              spellCheck={false}
                          />
                     </form>
                     <Icon

@@ -10,8 +10,7 @@ import SelectGender from './Components/SelectGender/SelectGender';
 import SelectNickname from './Components/SelectNickname/SelecNickname';
 import SelectOppositeGender from './Components/SelectOppositeGender/SelectOppostieGender';
 import WelcomeStep from './Components/WelcomeStep/WelcomeStep';
-import { toast } from 'react-toastify';
-
+import { toast } from 'sonner';
 
 const LAST_STEP = 3;
 

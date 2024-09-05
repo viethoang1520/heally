@@ -1,10 +1,11 @@
-import { memo, useContext, useEffect, useLayoutEffect, useRef } from 'react';
+import { memo, useContext, useEffect, useRef } from 'react';
 import { ChatContext } from '../../Context/ChatContext';
 import './Chat.scss';
 import { ChatboxInside, ChatProfile, UserChatSide } from './Components';
 import { Col, Empty, Row } from 'antd';
 import { io } from 'socket.io-client';
 import { AppContext } from '../../Context/AppContext';
+import { toast } from 'sonner';
 
 const URL = import.meta.env.VITE_APP_API_URL;
 
@@ -14,7 +15,7 @@ function Chat() {
      const socketRef = useRef(null);
 
      //SET UP SOCKET IO:
-     useLayoutEffect(() => {
+     useEffect(() => {
           socketRef.current = io(URL);
           socketRef.current.emit("setup", userLogin);
           socketRef.current.on("connected", () => {
@@ -25,7 +26,7 @@ function Chat() {
                socketRef.current.disconnect();
                console.log("Socket disconnected");
           }
-     }, [userLogin]);
+     }, []);
 
      // useEffect(() => {
      //      socketRef.current.emit("setup", userLogin);
@@ -44,6 +45,13 @@ function Chat() {
           const handleMessageReceived = (newMess) => {
                console.log(newMess)
                setNewMessage(newMess);
+               if (newMess.chatID._id != room) {
+
+                    toast.message(`${newMess.sender.nickname}:`, {
+                         description: `${newMess.message.length > 25 ? newMess.message.slice(0, 25) + '...' : newMess.message}`,
+                         position: "bottom-right"
+                    });
+               }
           }
 
           socketRef.current.on("message received", handleMessageReceived);
@@ -51,7 +59,7 @@ function Chat() {
           return () => {
                socketRef.current.off("message received", handleMessageReceived);
           };
-     }, [setNewMessage]);
+     }, [room, setNewMessage]);
 
      return (
           <div className='chat-page'>

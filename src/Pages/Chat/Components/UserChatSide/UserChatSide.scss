@@ -64,6 +64,11 @@
                padding: 10px;
                border-radius: 10px;
                opacity: 90%;
+               transition: 0.2s;
+
+               &:hover {
+                    transform: scale(1.02);
+               }
 
                .input-block {
                     width: 89%;

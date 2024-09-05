@@ -3,9 +3,11 @@ import classNames from "classnames/bind";
 import { Link, NavLink } from 'react-router-dom';
 import './Header.scss';
 import mainLogo from '../../assets/logo-heally.png';
-import { toast } from 'react-toastify';
 import { Modal } from 'antd';
 import { memo, useState } from 'react';
+import { toast } from 'sonner';
+// import toast from 'react-hot-toast';
+
 
 function Header() {
      
@@ -13,7 +15,8 @@ function Header() {
 
      const handleClickTest = () => {
           // toaster.danger('Dev mode test');
-          toast.success('test')
+          toast.success('Successfully toasted!')
+     
      }
 
      const showModal = () => {
@@ -106,7 +109,7 @@ function Header() {
                </ul>
 
                <div className="other-btn">
-                    <button onClick={showModal}>TEST</button>
+                    <button onClick={handleClickTest}>TEST</button>
                </div>
           </header>
      );
