@@ -30,6 +30,7 @@
     "socket.io": "^4.7.5"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "express-rate-limit": "^7.4.0"
   }
 }
