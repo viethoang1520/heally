@@ -26,6 +26,8 @@ app.use(session({
   saveUninitialized: true
 }));
 
+const maleList = []
+const femaleList = []
 
 app.get("/", (req, res) => {
   res.send('index.html')
@@ -38,4 +40,4 @@ const server = app.listen(process.env.PORT || 3000, () => {
 });
 
 const connectSocket = require('./config/chat/socketConfig')
-connectSocket(server)
+connectSocket(server, maleList, femaleList)
