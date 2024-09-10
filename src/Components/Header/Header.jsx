@@ -4,20 +4,27 @@ import { Link, NavLink } from 'react-router-dom';
 import './Header.scss';
 import mainLogo from '../../assets/logo-heally.png';
 import { Modal } from 'antd';
-import { memo, useState } from 'react';
+import { memo, useContext, useState } from 'react';
 import { toast } from 'sonner';
-// import toast from 'react-hot-toast';
-
+import { AppContext } from '../../Context/AppContext';
 
 function Header() {
+
+     const { theme, setTheme } = useContext(AppContext);
      
      const [isModalOpen, setIsModalOpen] = useState(false);
 
      const handleClickTest = () => {
           // toaster.danger('Dev mode test');
-          toast.success('Successfully toasted!')
-     
+          // toast.success('Successfully toasted!')
+          if (theme === 'light-theme') {
+               setTheme('dark-theme');
+          } else {
+               setTheme('light-theme');
+          }
      }
+
+     console.log(theme);
 
      const showModal = () => {
           setIsModalOpen(true);

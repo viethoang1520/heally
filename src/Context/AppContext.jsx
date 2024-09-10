@@ -7,6 +7,7 @@ export const AppProvider = ({ children }) => {
      const [isLoading, setIsLoading] = useState(false);
      const [room, setRoom] = useState("")
      const [userLogin, setUserLogin] = useState(JSON.parse(sessionStorage.getItem('userLogin')));
+     const [theme, setTheme] = useState('light-theme');
      const [registerSideInfor, setRegisterSideInfor] = useState({ userID: '', avatar: '', gender: '', nickname: '', oppositeGender: '' });
 
      useLayoutEffect(() => {
@@ -26,7 +27,9 @@ export const AppProvider = ({ children }) => {
                registerSideInfor,
                setRegisterSideInfor,
                isLoading,
-               setIsLoading
+               setIsLoading,
+               theme, 
+               setTheme
           }}
      >
           {children}

@@ -18,6 +18,7 @@ html {
 }
 
 body {
+     
      // Handwriting-font:
      // font-family: "Borel", cursive;
 
@@ -34,7 +35,8 @@ body {
 }
 
 .App {
-     color: $text-color;
+     color: $text-primary;
+     background-color: $bg-primary;
 }
 
 input:-webkit-autofill {

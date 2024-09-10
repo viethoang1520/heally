@@ -31,7 +31,7 @@
 
                .navbar-item-link {
                     .icon {
-                         color: $text-color;
+                         color: $text-primary;
                          text-decoration: none;
                          font-size: 3rem;
                          opacity: 70%;
@@ -46,6 +46,7 @@
                               transform: scale(1.04);
                          }
                     }
+
 
                     &.active {
                          .icon {

@@ -22,20 +22,44 @@ $light-grey: #c2cbc9;
 
 .App {
      &.light-theme {
-          --text-color: #333333;
-          --theme-color-primary: #80ed99;
-          // --theme-color-primary: #5d8f0c;
-          --bg-color: #fff;
+          --text-primary: #333333;
+          --theme-color-primary: #80ED99;
+          --bg-primary: #fff;
+          --bg-secondary: #EEEEEE;
+          --accent-primary: #ffe38d;
      }
 
      &.dark-theme {
-          --text-color: #fff;
-          --primary-color: #80ed99;
-          --bg-color: #333;
+          --text-primary: #F2F2F2;
+          --theme-color-primary: #171616;
+          --bg-primary: #242526;
+          --bg-secondary: #343536;
+          --accent-primary: #ffe38d;
      }
 }
 
-$text-color: var(--text-color);
+$bg-primary: var(--bg-primary);
+$bg-secondary: var(--bg-secondary);
+$text-primary: var(--text-primary);
+//$text-secondary:
+//$text-muted:
+//$text-light:
+//$text-dark
+//$text-error
+
+//$border-primary
+//$border-decondary
+//$border-light
+//$border-dark
+//$border-muted
+
+$accent-primary: var(--accent-primary);
+//$accent-secondary
+//$accent-hover
+//$accent-active
+//$highlight
+
+// $text-color: var(--text-color);
 $text-muted-color: grey;
 $theme-color-primary: var(--theme-color-primary);
 $error-color: red;
@@ -43,4 +67,3 @@ $success-color: green;
 $warning-color: yellow;
 $active-color: grey;
 $hover-color: grey;
-$bg-color: var(--bg-color);

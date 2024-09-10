@@ -1,3 +1,4 @@
+@import '../../../../../Components/GlobalStyles/color.scss';
 .boxchat-user {
      display: flex;
      width: 95%;
@@ -83,6 +84,7 @@
      }
 
      &.current {
-          background-color: #ffe38d;
+          // background-color: #ffe38d;
+          background-color: $accent-primary;
      }
 }

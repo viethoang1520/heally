@@ -8,6 +8,7 @@ import { LoadingVocado } from '../../Components';
 import { AppContext } from '../../Context/AppContext';
 import './Login.scss';
 import { toast } from 'sonner';
+import { Row, Col } from 'antd';
 
 function Login() {
      const navigate = useNavigate();
@@ -67,58 +68,62 @@ function Login() {
      }, [formData]);
 
      return (
-          <div className="login-page gradient-background">
+          <Row align='center' className="login-page">
                {showLoading && <LoadingVocado />}
-               <form className='login-form' onSubmit={handleLogin}>
-                    <img src={Logo} className='logo' alt="HEALLY LOGO" />
-                    <h1 className='title'>Chào mừng trở lại</h1>
-                    <div className={classNames('input-block', { 'incorrect': loginError.code == 1 })}>
-                         <label htmlFor="username" className='label username'>Tên đăng nhập</label>
-                         <input
-                              type="text"
-                              className="input username"
-                              id='username'
-                              value={formData.username}
-                              name='username'
-                              onChange={(e) => handleChangeInput(e)}
-                              required
-                         />
-                    </div>
-
-                    <div className={classNames('input-block', { 'incorrect': loginError.code == 1 }, { 'incorrect': loginError.code == 2 })}>
-                         <label htmlFor="password" className='label fullname'>Mật khẩu</label>
-                         <input
-                              type={showPassword ? "text" : "password"}
-                              className="input password"
-                              id='password'
-                              value={formData.password}
-                              name='password'
-                              onChange={(e) => handleChangeInput(e)}
-                              required
-                         />
-
-                         <span className='incorrect-msg'>{loginError.msg}</span>
-                         <Icon
-                              icon="mdi:eye"
-                              className={classNames('icon', { 'hide': !showPassword })}
-                              onClick={handleShowPassword}
-                              title='Hiện mật khẩu'
-                         />
-                         <Icon
-                              icon="mdi:eye-off"
-                              className={classNames('icon', { 'hide': showPassword })}
-                              onClick={handleShowPassword}
-                              title='Ẩn mật khẩu'
-                         />
-                    </div>
-
-                    <button className={classNames('button-login', { 'disable': !isValidate })}>Đăng nhập</button>
-
-                    <p className='sign-up-text'>
-                         Chưa có tài khoản? <Link className='sign-up-link' to='/signup'>Đăng ký</Link>
-                    </p>
-               </form>
-          </div>
+               <Col span={12} className='side-information'>
+               </Col>
+               <Col span={12}>
+                    <form className='login-form' onSubmit={handleLogin}>
+                         <img src={Logo} className='logo' alt="HEALLY LOGO" />
+                         <h1 className='title'>Chào mừng trở lại</h1>
+                         <div className={classNames('input-block', { 'incorrect': loginError.code == 1 })}>
+                              <label htmlFor="username" className='label username'>Tên đăng nhập</label>
+                              <input
+                                   type="text"
+                                   className="input username"
+                                   id='username'
+                                   value={formData.username}
+                                   name='username'
+                                   onChange={(e) => handleChangeInput(e)}
+                                   required
+                              />
+                         </div>
+     
+                         <div className={classNames('input-block', { 'incorrect': loginError.code == 1 }, { 'incorrect': loginError.code == 2 })}>
+                              <label htmlFor="password" className='label fullname'>Mật khẩu</label>
+                              <input
+                                   type={showPassword ? "text" : "password"}
+                                   className="input password"
+                                   id='password'
+                                   value={formData.password}
+                                   name='password'
+                                   onChange={(e) => handleChangeInput(e)}
+                                   required
+                              />
+     
+                              <span className='incorrect-msg'>{loginError.msg}</span>
+                              <Icon
+                                   icon="mdi:eye"
+                                   className={classNames('icon', { 'hide': !showPassword })}
+                                   onClick={handleShowPassword}
+                                   title='Hiện mật khẩu'
+                              />
+                              <Icon
+                                   icon="mdi:eye-off"
+                                   className={classNames('icon', { 'hide': showPassword })}
+                                   onClick={handleShowPassword}
+                                   title='Ẩn mật khẩu'
+                              />
+                         </div>
+     
+                         <button className={classNames('button-login', { 'disable': !isValidate })}>Đăng nhập</button>
+     
+                         <p className='sign-up-text'>
+                              Chưa có tài khoản? <Link className='sign-up-link' to='/signup'>Đăng ký</Link>
+                         </p>
+                    </form>
+               </Col>
+          </Row>
      );
 }
 

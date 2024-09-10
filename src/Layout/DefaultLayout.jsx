@@ -4,8 +4,8 @@ import { Col, Row } from 'antd';
 
 function DefaultLayout({ children }) {
      return (
-          <Row>
-               <Col flex="60px"><Header /></Col>
+          <Row wrap={false}>
+               <Col flex="55px"><Header /></Col>
                <Col flex="auto">{children}</Col>
           </Row>
 

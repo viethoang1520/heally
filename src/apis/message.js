@@ -12,7 +12,6 @@ export const getChatMessage = async (chatID) => {
      } catch (error) {
           console.log(error);
      }
-
 }
 
 export const sendMessage = async (rootUserID, chatID, message) => {

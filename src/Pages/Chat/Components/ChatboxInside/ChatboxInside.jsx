@@ -3,7 +3,6 @@ import { memo, useCallback, useContext, useEffect, useRef, useState } from "reac
 import { Link } from "react-router-dom";
 import ScrollableFeed from 'react-scrollable-feed';
 import propTypes from 'prop-types';
-// import { io } from 'socket.io-client';
 import { getChatMessage, sendMessage } from "../../../../apis/message";
 import OnTyping from "../../../../Components/OnTyping/OnTyping";
 import { AppContext } from "../../../../Context/AppContext";
@@ -43,18 +42,18 @@ function ChatboxInside({ socketRef }) {
           }
      }, [newMessage, userLogin]);
 
-     useEffect(() => {
-          if (socketRef) {
-               socketRef.on("typing", () => {
-                    console.log('typing')
-                    setIsTyping(true);
-               });
-               socketRef.on("stop typing", () => {
-                    console.log('stop')
-                    setIsTyping(false);
-               });
-          }
-     }, [socketRef]);
+     // useEffect(() => {
+     //      if (socketRef) {
+     //           socketRef.on("typing", () => {
+     //                console.log('typing')
+     //                setIsTyping(true);
+     //           });
+     //           socketRef.on("stop typing", () => {
+     //                console.log('stop')
+     //                setIsTyping(false);
+     //           });
+     //      }
+     // }, [socketRef]);
 
      const handleSendMsg = async (e) => {
           e.preventDefault();
@@ -64,7 +63,7 @@ function ChatboxInside({ socketRef }) {
                const { data } = await sendMessage(userLogin._id, room, textMsg);
                socketRef.emit("new message", data.message);
                setTextMsg('');
-               socketRef.emit('stop typing', room);
+               // socketRef.emit('stop typing', room);
                // setCheckIsTyping(false);
           }
      }
@@ -116,6 +115,7 @@ function ChatboxInside({ socketRef }) {
                </div>
 
                <div className="input-block">
+              
                     <Icon icon="mdi:emoticon-cool-outline" className="icon emoji" />
                     <form onSubmit={handleSendMsg} className="form-input">
                          <input

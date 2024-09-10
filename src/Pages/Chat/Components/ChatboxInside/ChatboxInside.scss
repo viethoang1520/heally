@@ -1,29 +1,31 @@
+@import '../../../../Components/GlobalStyles/color.scss';
 .chatbox-inside {
      width: 100%;
      border-radius: 15px;
-     background-color: rgba(201, 201, 201, 0.304);
+     background-color: $bg-secondary;
      box-shadow: 0 0 20px 0.5px rgba(128, 128, 128, 0.167);
      // animation: popOver 0.2s ease forwards;
 
      .top-navbar {
           display: flex;
           justify-content: space-between;
-          background-color: rgb(255, 255, 255);
+          background-color: $bg-primary;
           border-radius: 15px 15px 0 0;
           align-items: center;
           padding: 10px 0;
+          border-bottom: 1px solid rgb(208, 208, 208);
 
           .name {
-               font-size: 1.7rem;
+               font-size: 1.9rem;
                font-weight: 500;
-               margin-left: 10px;
+               margin-left: 20px;
           }
 
           .button-block {
 
                .button {
                     font-size: 3rem;
-                    color: #333;
+                    color: $text-primary;
                     margin: 10px;
 
                     &:hover {
@@ -34,7 +36,7 @@
      }
 
      .content {
-          height: calc(100vh - 122px);
+          height: calc(100vh - 123px);
           display: flex;
           padding: 0 10px;
           width: 100%;
@@ -51,17 +53,15 @@
      .input-block {
           border: 1px solid rgba(198, 198, 198, 0.375);
           border-radius: 0 0 15px 15px;
-          // margin-left: -15px;
-          // margin-right: -15px;
           margin-bottom: 0;
           height: 45px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background-color: #fff;
+          background-color: $bg-primary;
 
           .icon {
-               opacity: 80%;
+               // opacity: 80%;
                transition: 0.2s;
                cursor: pointer;
 
@@ -73,11 +73,12 @@
                &.send {
                     font-size: 2.5rem;
                     margin-right: 10px;
-                    color: green;
+                    color: $accent-primary;
                }
 
                &:hover {
-                    opacity: 100%;
+                    // opacity: 100%;
+                    transform: scale(1.04);
                }
           }
 
@@ -86,9 +87,11 @@
           }
 
           .input {
+               background-color: transparent;
                width: 100%;
                height: 40px;
                border: none;
+               font-size: 1.5rem;
 
                &:focus {
                     outline: none;

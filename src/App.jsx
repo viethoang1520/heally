@@ -7,12 +7,12 @@ import { PrivateRouteComponent, privateRoutes, publicRoutes } from './Routes';
 import { LoadingVocado } from './Components';
 
 function App() {
-  const [theme, setTheme] = useState('');
-  const { isLoading } = useContext(AppContext);
+  // const [theme, setTheme] = useState('');
+  const { isLoading, theme } = useContext(AppContext);
 
-  useEffect(() => {
-    setTheme('light-theme');
-  }, []);
+  // useEffect(() => {
+  //   setTheme('dark-theme');
+  // }, []);
 
   return (
     <BrowserRouter>

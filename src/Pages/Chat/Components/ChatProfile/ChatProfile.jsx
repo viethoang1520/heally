@@ -6,7 +6,7 @@ import { memo, useContext, useState } from 'react';
 import { ChatContext } from '../../../../Context/ChatContext';
 import { Flex, Modal, Rate, Typography, Input, Button } from 'antd';
 import { ratingUser } from '../../../../apis/chat';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 function ChatProfile() {
      const { oppositeUser } = useContext(ChatContext);
@@ -25,6 +25,7 @@ function ChatProfile() {
           setIsLoading(true);
           if (star) {
                const { data } = await ratingUser(oppositeUser.userId, star);
+               console.log(data);
                if (data.error_code == 0) {
                     toast.success('Cảm ơn bạn đã đánh giá');
                     setIsModalOpen(false);
