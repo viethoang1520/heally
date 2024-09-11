@@ -5,6 +5,6 @@ import Login from './Login/Login';
 import Notification from "./Notification/Notification";
 import Profile from './Profile/Profile';
 import SignUp from "./SignUp/SignUp";
-import Vocado from "./Vocado/Vocado";
+import Vocado from "./Avocado/Avocado";
 
 export { AddFriend, Chat, FriendsView, Login, Notification, Profile, SignUp, Vocado };

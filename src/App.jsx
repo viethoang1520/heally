@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppContext } from './Context/AppContext';
 import DefaultLayout from './Layout/DefaultLayout';
@@ -7,12 +7,8 @@ import { PrivateRouteComponent, privateRoutes, publicRoutes } from './Routes';
 import { LoadingVocado } from './Components';
 
 function App() {
-  // const [theme, setTheme] = useState('');
-  const { isLoading, theme } = useContext(AppContext);
 
-  // useEffect(() => {
-  //   setTheme('dark-theme');
-  // }, []);
+  const { isLoading, theme } = useContext(AppContext);
 
   return (
     <BrowserRouter>

@@ -1,0 +1,55 @@
+.avatar-ripple {
+     .circles {
+          height: 400px;
+          position: relative;
+          width: 400px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &.finding {
+               >div {
+                    animation: growAndFade 3s infinite ease-out;
+                    background-color: rgb(116, 242, 13);
+                    border-radius: 50%;
+                    height: 100%;
+                    opacity: 0;
+                    position: absolute;
+                    width: 100%;
+               }
+
+               .circle1 {
+                    animation-delay: 1s;
+               }
+
+               .circle2 {
+                    animation-delay: 2s;
+               }
+
+               .circle3 {
+                    animation-delay: 3s;
+               }
+          }
+
+          .avatar-img {
+               border-radius: 50%;
+               border: 1px solid grey;
+               width: 200px;
+               height: 200px;
+               object-fit: cover;
+               z-index: 5;
+          }
+
+          @keyframes growAndFade {
+               0% {
+                    opacity: .6;
+                    transform: scale(0);
+               }
+
+               100% {
+                    opacity: 0;
+                    transform: scale(1);
+               }
+          }
+     }
+}

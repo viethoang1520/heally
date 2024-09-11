@@ -4,32 +4,20 @@ import { Link } from "react-router-dom";
 import ScrollableFeed from 'react-scrollable-feed';
 import propTypes from 'prop-types';
 import { getChatMessage, sendMessage } from "../../../../apis/message";
-import OnTyping from "../../../../Components/OnTyping/OnTyping";
 import { AppContext } from "../../../../Context/AppContext";
 import { ChatContext } from "../../../../Context/ChatContext";
 import './ChatboxInside.scss';
 import ChatContent from "./ChatContent/ChatContent";
 
-function ChatboxInside({ socketRef }) {
+function ChatboxInside() {
      let selectChatCompare = useRef(null);
      const [listMessage, setListMessage] = useState([]);
-     const { userLogin } = useContext(AppContext);
+     const { userLogin, socketRef } = useContext(AppContext);
      const { room, oppositeUser, setNewMessage, newMessage } = useContext(ChatContext);
-     const [isTyping, setIsTyping] = useState(false);
      const [textMsg, setTextMsg] = useState("");
-
-     // const [checkIsTyping, setCheckIsTyping] = useState(false);
 
      const handleTypingMsg = useCallback((e) => {
           setTextMsg(e.target.value);
-
-          // if (e.target.value != '' && !checkIsTyping) {
-          //      socketRef.emit('typing', room);
-          //      setCheckIsTyping(true);
-          // } else if (e.target.value == '' && checkIsTyping) {
-          //      socketRef.emit('stop typing', room);
-          //      setCheckIsTyping(false);
-          // }
      }, []);
 
      useEffect(() => {
@@ -42,29 +30,15 @@ function ChatboxInside({ socketRef }) {
           }
      }, [newMessage, userLogin]);
 
-     // useEffect(() => {
-     //      if (socketRef) {
-     //           socketRef.on("typing", () => {
-     //                console.log('typing')
-     //                setIsTyping(true);
-     //           });
-     //           socketRef.on("stop typing", () => {
-     //                console.log('stop')
-     //                setIsTyping(false);
-     //           });
-     //      }
-     // }, [socketRef]);
-
      const handleSendMsg = async (e) => {
           e.preventDefault();
+          console.log('send');
           if (textMsg != '') {
                setListMessage([...listMessage, { message: textMsg, sender: { _id: userLogin._id } }]);
                setNewMessage({ message: textMsg, sender: { _id: userLogin._id }, chatID: { _id: room } });
                const { data } = await sendMessage(userLogin._id, room, textMsg);
-               socketRef.emit("new message", data.message);
+               socketRef.current.emit("new message", data.message);
                setTextMsg('');
-               // socketRef.emit('stop typing', room);
-               // setCheckIsTyping(false);
           }
      }
 
@@ -76,7 +50,7 @@ function ChatboxInside({ socketRef }) {
           if (room) {
                fetchMessage(room);
                if (socketRef) {
-                    socketRef.emit("join room", room);
+                    socketRef.current.emit("join room", room);
                }
           }
           selectChatCompare.current = room;
@@ -110,13 +84,13 @@ function ChatboxInside({ socketRef }) {
                                    </div>
                               )
                          })}
-                         {isTyping && <OnTyping />}
                     </ScrollableFeed>
                </div>
 
                <div className="input-block">
-              
+
                     <Icon icon="mdi:emoticon-cool-outline" className="icon emoji" />
+
                     <form onSubmit={handleSendMsg} className="form-input">
                          <input
                               type="text"

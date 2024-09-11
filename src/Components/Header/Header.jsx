@@ -3,47 +3,24 @@ import classNames from "classnames/bind";
 import { Link, NavLink } from 'react-router-dom';
 import './Header.scss';
 import mainLogo from '../../assets/logo-heally.png';
-import { Modal } from 'antd';
-import { memo, useContext, useState } from 'react';
-import { toast } from 'sonner';
+import { memo, useCallback, useContext } from 'react';
 import { AppContext } from '../../Context/AppContext';
 
 function Header() {
 
      const { theme, setTheme } = useContext(AppContext);
-     
-     const [isModalOpen, setIsModalOpen] = useState(false);
 
-     const handleClickTest = () => {
-          // toaster.danger('Dev mode test');
-          // toast.success('Successfully toasted!')
+     const handleClickTest = useCallback(() => {
           if (theme === 'light-theme') {
                setTheme('dark-theme');
           } else {
                setTheme('light-theme');
           }
-     }
+     }, [setTheme, theme]);
 
-     console.log(theme);
-
-     const showModal = () => {
-          setIsModalOpen(true);
-     };
-     const handleOk = () => {
-          setIsModalOpen(false);
-     };
-     const handleCancel = () => {
-          setIsModalOpen(false);
-     };
 
      return (
           <header className="header">
-
-               <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-               </Modal>
                <Link to='/' className="link-logo">
                     <img className="logo-img" src={mainLogo} alt="" />
                </Link>

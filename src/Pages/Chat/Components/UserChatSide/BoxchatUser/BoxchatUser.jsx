@@ -16,7 +16,6 @@ function BoxchatUser({ avatarLink, name, lastMsg, statusRead, statusOnline, time
 
      useEffect(() => {
           if (newMessage && newMessage.chatID._id == roomId) {
-               console.log(newMessage);
                setLastMessage(`${newMessage.sender._id == userLogin._id ? 'Bạn: ' : ''} ${newMessage.message}`);
           }
      }, [newMessage, userLogin, roomId]);

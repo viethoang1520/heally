@@ -1,65 +1,21 @@
-import { memo, useContext, useEffect, useRef } from 'react';
+import { memo, useContext, useEffect } from 'react';
 import { ChatContext } from '../../Context/ChatContext';
 import './Chat.scss';
 import { ChatboxInside, ChatProfile, UserChatSide } from './Components';
 import { Col, Empty, Row } from 'antd';
-import { io } from 'socket.io-client';
 import { AppContext } from '../../Context/AppContext';
-import { toast } from 'sonner';
-
-const URL = import.meta.env.VITE_APP_API_URL;
-
 
 function Chat() {
      const { setNewMessage, room } = useContext(ChatContext);
-     const { userLogin } = useContext(AppContext);
-     const socketRef = useRef(null);
-
-     //SET UP SOCKET IO:
-     useEffect(() => {
-          socketRef.current = io(URL);
-          socketRef.current.emit("setup", userLogin);
-          socketRef.current.on("connected", () => {
-               console.log("Connected");
-          });
-
-          return () => {
-               socketRef.current.disconnect();
-               console.log("Socket disconnected");
-          }
-     }, [userLogin]);
-
-     // useEffect(() => {
-     //      socketRef.current.emit("setup", userLogin);
-     //      socketRef.current.on("connected", () => {
-     //           console.log("Connected");
-     //      });
-
-     //      return () => {
-     //           socketRef.current.disconnect();
-     //           console.log("Socket disconnected");
-     //      }
-     // }, [userLogin]);
+     const { socketRef } = useContext(AppContext);
 
      // SOCKET IO (RECEIVE NEW MESSAGE):
      useEffect(() => {
           const handleMessageReceived = (newMess) => {
-               console.log(newMess)
                setNewMessage(newMess);
-               if (newMess.chatID._id !== room) {
-                    toast.message(`${newMess.sender.nickname}:`, {
-                         description: `${newMess.message.length > 25 ? newMess.message.slice(0, 25) + '...' : newMess.message}`,
-                         position: "bottom-right"
-                    });
-               }
           }
-
           socketRef.current.on("message received", handleMessageReceived);
-
-          return () => {
-               socketRef.current.off("message received", handleMessageReceived);
-          };
-     }, [room, setNewMessage]);
+     }, [socketRef, setNewMessage]);
 
      return (
           <div className='chat-page'>
