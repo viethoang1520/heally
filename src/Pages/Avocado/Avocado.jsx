@@ -4,18 +4,24 @@ import AvatarRipple from '../../Components/AvatarRipple/AvatarRipple';
 import './Avocado.scss'
 import { AppContext } from '../../Context/AppContext';
 import { toast } from 'sonner';
+import { useStopwatch } from 'react-timer-hook';
 
 function Avocado() {
      const { userLogin, socketRef } = useContext(AppContext);
-
      const [isFinding, setIsFinding] = useState(false);
-
-     console.log(userLogin);
+     const { seconds, minutes, start, pause } = useStopwatch({ autoStart: true });
 
      const handleClick = () => {
-          setIsFinding(true);
-          console.log('Finding....');
-          socketRef.current.emit('find', userLogin);
+          if (!isFinding) {
+               setIsFinding(true);
+               console.log('Finding....');
+               socketRef.current.emit('find', userLogin);
+               start();
+          } else {
+               setIsFinding(false);
+               socketRef.current.emit('stop find', userLogin);
+               console.log('Stop finding');
+          }
      }
 
      useEffect(() => {
@@ -23,17 +29,20 @@ function Avocado() {
                console.log('Matched');
                console.log(obj);
                setIsFinding(false);
-               toast.success('Đã tìm thấy')
+               pause();
+               toast.success('Đã tìm thấy');
           })
      }, [socketRef]);
 
      return (
           <div className="avocado">
-               <AvatarRipple
-                    isFinding={isFinding}
-                    linkAvatar={userLogin.avatar.link}
-               />
-               <div className='btn-block' onClick={handleClick}><ButtonBlink>Tìm</ButtonBlink></div>
+               <div className='self-block'>
+                    <AvatarRipple
+                         isFinding={isFinding}
+                         linkAvatar={userLogin.avatar.link}
+                    />
+                    <div className='btn-block' onClick={handleClick}><ButtonBlink>{isFinding ? `${minutes < 10 ? '0' + minutes : minutes} : ${seconds < 10 ? '0' + seconds : seconds}` : 'Tìm'}</ButtonBlink></div>
+               </div>
           </div>
      );
 }

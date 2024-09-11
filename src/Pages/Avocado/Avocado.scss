@@ -1,5 +1,11 @@
 .avocado {
-     .btn-block {
-          margin-left: 95px;
+     .self-block {
+          background-color: rgba(214, 214, 214, 0.134);
+          width: 500px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px;
      }
+
 }
