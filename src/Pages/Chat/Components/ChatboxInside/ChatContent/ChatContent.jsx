@@ -11,7 +11,7 @@ function ChatContent({ text, receive, send }) {
      );
 }
 
-export default ChatContent
+export default ChatContent;
 
 ChatContent.propTypes = {
      text: PropTypes.string,

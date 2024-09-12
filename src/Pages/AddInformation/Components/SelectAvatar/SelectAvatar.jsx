@@ -1,6 +1,6 @@
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { useEffect, useState } from "react";
-import { propTypes } from "prop-types";
+import propTypes from "prop-types";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { getAvatar, getTypeAvatar } from "../../../../apis/avatar";
@@ -24,11 +24,13 @@ function SelectAvatar() {
 
      useEffect(() => {
           const fetchType = async () => {
+               setIsLoading(true);
                const { data } = await getTypeAvatar();
                setListTypeAvatar(data.message);
                if (listAvatar.length == 0) {
                     fetchAvatar(data.message[0]._id);
                }
+               setIsLoading(false);
           }
           if (listTypeAvatar.length == 0) {
                fetchType();
@@ -73,7 +75,7 @@ function SelectAvatar() {
 
      const CustomLeftArrow = ({ onClick }) => {
           CustomLeftArrow.propTypes = {
-               onClick: propTypes.func
+               onClick: propTypes.any
           }
           return (
                <button
@@ -97,7 +99,7 @@ function SelectAvatar() {
 
      const CustomRightArrow = ({ onClick }) => {
           CustomRightArrow.propTypes = {
-               onClick: propTypes.func
+               onClick: propTypes.any
           }
           return (
                <button

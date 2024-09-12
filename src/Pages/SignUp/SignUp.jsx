@@ -51,7 +51,7 @@ function SignUp() {
           e.preventDefault();
           setShowLoading(true);
           if (isValidate) {
-               const {data} = await registerUser(formData);
+               const { data } = await registerUser(formData);
                console.log(data);
                if (data.error_code == 0) {
                     toast.success('Đăng ký tài khoản thành công!');
@@ -157,20 +157,9 @@ function SignUp() {
                               onClick={handleShowPassword}
                          />
 
-                         {/* <ProgressBar
-                              now={testPasswordProgess}
-                              variant={checkStatusPassword().color}
-                              style={{ width: "80%", margin: "0 auto" }}
-                         /> */}
-
-                         {/* <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
-                              <LinearProgress sx={{width: "80%" }} variant="determinate" value={testPasswordProgess} />
-                         </Stack> */}
-
                          <Flex gap="small" vertical>
                               <Progress percent={testPasswordProgess} status={testPasswordProgess < 40 ? "exception" : ""} showInfo={false} style={{ width: "81%", alignSelf: "center" }} />
                          </Flex>
-
 
                          <span className='text-desc-pass'>{checkStatusPassword().text}</span>
                     </div>

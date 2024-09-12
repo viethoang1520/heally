@@ -5,7 +5,6 @@ import { AppContext } from '../Context/AppContext';
 
 function PrivateRouteComp({ children }) {
      let isAuthenticated = true;
-
      const { userLogin } = useContext(AppContext);
 
      if (userLogin !== null) {

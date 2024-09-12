@@ -16,11 +16,12 @@ function Avocado() {
                setIsFinding(false);
                socketRef.current.emit('stop finding', userLogin);
                console.log('Stop finding');
+               toast.info('Đã hủy tìm kiếm');
                pause();
+               reset();
           } else {
                setIsFinding(true);
                console.log('Finding....');
-               reset();
                start();
                setTimeout(() => {
                     socketRef.current.emit('finding', userLogin);
@@ -31,14 +32,15 @@ function Avocado() {
      useEffect(() => {
           if (isSocketConnect) {
                const handleMatched = (matched) => {
+                    toast.success(`Đã tìm thấy: ${matched.user.nickname} (${minutes == 0 ? seconds : (seconds + (minutes * 60))}s)`);
                     setIsFinding(false);
-                    toast.success(`Đã tìm thấy: ${matched.user.nickname} (${seconds}s)`);
                     pause();
+                    reset();
                };
                socketRef.current?.on('matched', handleMatched);
                return () => socketRef.current?.off('matched', handleMatched);
           }
-     }, [isSocketConnect]);
+     }, [isSocketConnect, seconds]);
 
      return (
           <div className="avocado">

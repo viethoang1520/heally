@@ -2,7 +2,6 @@ import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import { memo, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ScrollableFeed from 'react-scrollable-feed';
-import propTypes from 'prop-types';
 import { getChatMessage, sendMessage } from "../../../../apis/message";
 import { AppContext } from "../../../../Context/AppContext";
 import { ChatContext } from "../../../../Context/ChatContext";
@@ -108,7 +107,3 @@ function ChatboxInside() {
 }
 
 export default memo(ChatboxInside);
-
-ChatboxInside.propTypes = {
-     socketRef: propTypes.any
-}

@@ -1,12 +1,12 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
-import { Link } from 'react-router-dom';
-import { DefaultAvatar } from '../../../../assets/avatar';
-import './ChatProfile.scss';
+import { Button, Flex, Input, Modal, Rate, Typography } from 'antd';
 import { memo, useContext, useState } from 'react';
-import { ChatContext } from '../../../../Context/ChatContext';
-import { Flex, Modal, Rate, Typography, Input, Button } from 'antd';
-import { ratingUser } from '../../../../apis/chat';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import { ratingUser } from '../../../../apis/chat';
+import { DefaultAvatar } from '../../../../assets/avatar';
+import { ChatContext } from '../../../../Context/ChatContext';
+import './ChatProfile.scss';
 
 function ChatProfile() {
      const { oppositeUser } = useContext(ChatContext);
@@ -24,11 +24,10 @@ function ChatProfile() {
      const handleRating = async () => {
           setIsLoading(true);
           if (star) {
-               const { data } = await ratingUser(oppositeUser.userId, star);
-               console.log(data);
+               const { data } = await ratingUser(oppositeUser.userId, star)
                if (data.error_code == 0) {
-                    toast.success('Cảm ơn bạn đã đánh giá');
-                    setIsModalOpen(false);
+                    toast.success('Cảm ơn bạn đã đánh giá')
+                    setIsModalOpen(false)
                } else {
                     toast.error(data.message);
                }
@@ -38,7 +37,7 @@ function ChatProfile() {
           setIsLoading(false);
      }
 
-     const desc = ['rất tệ', 'tệ', 'bình thường', 'tốt', 'tuyệt vời bạn êii'];
+     const desc = ['rất tệ', 'tệ', 'bình thường', 'tốt', 'tuyệt vời bạn êii']
 
      return (
           <div className="chat-profile">
