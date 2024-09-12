@@ -1,14 +1,24 @@
 const matchWithPerson = (socket, userData, person, roomID) => {
+  // console.log(userData.full_name)
+  // console.log(person.userData.full_name)
+  // console.log('-------------------------')
   socket.join(roomID);
   person.socket.join(roomID);
-  socket.emit('matched', { roomID, users: [userData._id, person.userData._id] });
+  socket.emit('matched', { roomID, user: person.userData });
+  person.socket.emit('matched', { roomID, user: userData });
 };
 
-const randomMatch = (socket, userData, maleList, femaleList) => {
-  const randomGender = Math.round(Math.random());
-  const person = randomGender === 0 ? femaleList.shift() : maleList.shift();
-  const roomID = crypto.randomUUID();
-  matchWithPerson(socket, userData, person, roomID);
-};
+const matchWithCondition = (socket, userData, genderList, exceptGender, roomID) => {
+  for (let user of genderList) {
+    if (user.userData.oppositeGender !== exceptGender) {
+      console.log("except gender", exceptGender)
+      console.log("opposite gender", user.userData.oppositeGender)
+      const userIndex = genderList.indexOf(user)
+      const person = genderList.splice(userIndex, 1)[0]
+      matchWithPerson(socket, userData, person, roomID);
+      return
+    }
+  }
+}
 
-module.exports = { matchWithPerson, randomMatch };
+module.exports = { matchWithPerson, matchWithCondition };
