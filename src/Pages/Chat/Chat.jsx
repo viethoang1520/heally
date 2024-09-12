@@ -13,16 +13,12 @@ function Chat() {
           const handleMessageReceived = (newMess) => {
                setNewMessage(newMess);
           }
-          if (socketRef.current) {
-               socketRef.current.on("message received", handleMessageReceived);
-          }
+          socketRef.current?.on("message received", handleMessageReceived);
 
           return () => {
-               if (socketRef.current) {
-                    socketRef.current.off("message received", handleMessageReceived);
-               }
+               socketRef.current?.off("message received", handleMessageReceived);
           }
-     }, [socketRef]);
+     }, []);
 
      return (
           <div className='chat-page'>

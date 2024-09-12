@@ -7,34 +7,38 @@ import { AppContext } from '../../Context/AppContext';
 import './Avocado.scss';
 
 function Avocado() {
-     const { userLogin, socketRef } = useContext(AppContext);
+     const { userLogin, socketRef, isSocketConnect } = useContext(AppContext);
      const [isFinding, setIsFinding] = useState(false);
-     const { seconds, minutes, start, pause } = useStopwatch({ autoStart: false });
+     const { seconds, minutes, start, pause, reset } = useStopwatch({ autoStart: false });
 
      const handleClick = () => {
           if (isFinding) {
                setIsFinding(false);
-               socketRef.current.emit('stop find', userLogin);
+               socketRef.current.emit('stop finding', userLogin);
                console.log('Stop finding');
                pause();
           } else {
                setIsFinding(true);
                console.log('Finding....');
-               socketRef.current.emit('find', userLogin);
+               reset();
                start();
+               setTimeout(() => {
+                    socketRef.current.emit('finding', userLogin);
+               }, 3500);
           }
      };
 
      useEffect(() => {
-          const handleMatched = (matched) => {
-               console.log('Matched', matched);
-               setIsFinding(false);
-               pause();
-               toast.success(`Đã tìm thấy: ${matched.user.nickname}`);
-          };
-          socketRef.current?.on('matched', handleMatched);
-          return () => socketRef.current?.off('matched', handleMatched);
-     }, [socketRef]);
+          if (isSocketConnect) {
+               const handleMatched = (matched) => {
+                    setIsFinding(false);
+                    toast.success(`Đã tìm thấy: ${matched.user.nickname} (${seconds}s)`);
+                    pause();
+               };
+               socketRef.current?.on('matched', handleMatched);
+               return () => socketRef.current?.off('matched', handleMatched);
+          }
+     }, [isSocketConnect]);
 
      return (
           <div className="avocado">
