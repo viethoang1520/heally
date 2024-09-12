@@ -16,7 +16,7 @@ function configureSocketIO(server, maleList, femaleList) {
       socket.emit('connected');
     });
 
-    socket.on('find', (userData) => {
+    socket.on('finding', (userData) => {
 
       /*
       In this context:
