@@ -17,9 +17,9 @@ function SelectOppositeGender() {
           <div className="select-opposite-gender">
                <h1 className="title">
                     ĐỐI TƯỢNG BẠN MUỐN NHẮN TIN
-                    {registerSideInfor.oppositeGender == '1' ? 'LÀ NAM' : ''}
-                    {registerSideInfor.oppositeGender == '0' ? 'LÀ NỮ' : ''}
-                    {registerSideInfor.oppositeGender == '3' ? 'LÀ CẢ 2' : ''}
+                    {registerSideInfor.oppositeGender == '1' ? ' LÀ NAM' : ''}
+                    {registerSideInfor.oppositeGender == '0' ? ' LÀ NỮ' : ''}
+                    {registerSideInfor.oppositeGender == '2' ? ' LÀ CẢ 2' : ''}
                </h1>
                <p className="sub-title">
                     Thông tin này sẽ giúp bạn dễ dàng tìm được đối tượng để tâm lý hợp với ý của bạn nhất
@@ -51,10 +51,10 @@ function SelectOppositeGender() {
 
                     <div className='gender-img-block'>
                          <img
-                              id="3"
+                              id="2"
                               src={gender}
                               alt=""
-                              className={classNames("gender-img gender", { 'checked': registerSideInfor.oppositeGender === '3' })}
+                              className={classNames("gender-img gender", { 'checked': registerSideInfor.oppositeGender === '2' })}
                               onClick={(e) => handleChange(e)}
                          />
                          <p className='sub-text'>Cả nam và nữ</p>

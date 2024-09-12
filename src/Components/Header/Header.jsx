@@ -18,7 +18,6 @@ function Header() {
           }
      }, [setTheme, theme]);
 
-
      return (
           <header className="header">
                <Link to='/' className="link-logo">
@@ -49,7 +48,7 @@ function Header() {
                     </li>
 
                     <li className='navbar-item'>
-                         <NavLink to='/vocado'
+                         <NavLink to='/avocado'
                               className={classNames(
                                    'navbar-item-link',
                                    ({ isActive }) => (isActive ? 'active' : '')

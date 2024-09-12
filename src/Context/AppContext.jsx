@@ -1,5 +1,5 @@
-import { createContext, useLayoutEffect, useRef, useState } from "react";
 import PropTypes from 'prop-types';
+import { createContext, useLayoutEffect, useRef, useState } from "react";
 import { io } from 'socket.io-client';
 const URL = import.meta.env.VITE_APP_API_URL;
 
@@ -21,14 +21,19 @@ export const AppProvider = ({ children }) => {
      }, []);
 
      useLayoutEffect(() => {
-          if (userLogin) {
+          if (userLogin && !socketRef.current) {
                socketRef.current = io(URL);
                socketRef.current.emit("setup", userLogin);
                socketRef.current.on("connected", () => {
                     console.log("Connected (SOCKET IO)");
                });
           }
-     }, [userLogin]);
+
+          return () => {
+               socketRef.current?.disconnect();
+               socketRef.current = null;
+          };
+     }, []);
 
      return <AppContext.Provider
           value={{

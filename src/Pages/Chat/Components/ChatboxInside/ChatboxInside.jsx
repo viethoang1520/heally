@@ -32,12 +32,11 @@ function ChatboxInside() {
 
      const handleSendMsg = async (e) => {
           e.preventDefault();
-          console.log('send');
           if (textMsg != '') {
                setListMessage([...listMessage, { message: textMsg, sender: { _id: userLogin._id } }]);
                setNewMessage({ message: textMsg, sender: { _id: userLogin._id }, chatID: { _id: room } });
                const { data } = await sendMessage(userLogin._id, room, textMsg);
-               socketRef.current.emit("new message", data.message);
+               socketRef.current?.emit("new message", data.message);
                setTextMsg('');
           }
      }
@@ -49,12 +48,10 @@ function ChatboxInside() {
           }
           if (room) {
                fetchMessage(room);
-               if (socketRef) {
-                    socketRef.current.emit("join room", room);
-               }
+               socketRef.current?.emit("join room", room);
           }
           selectChatCompare.current = room;
-     }, [room, socketRef]);
+     }, [room]);
 
      return (
           <div className="chatbox-inside">
@@ -88,9 +85,7 @@ function ChatboxInside() {
                </div>
 
                <div className="input-block">
-
                     <Icon icon="mdi:emoticon-cool-outline" className="icon emoji" />
-
                     <form onSubmit={handleSendMsg} className="form-input">
                          <input
                               type="text"

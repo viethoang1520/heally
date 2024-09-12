@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Fragment, useContext } from 'react';
+import { Fragment, memo, useContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppContext } from './Context/AppContext';
 import DefaultLayout from './Layout/DefaultLayout';
@@ -9,6 +9,8 @@ import { LoadingVocado } from './Components';
 function App() {
 
   const { isLoading, theme } = useContext(AppContext);
+
+  console.log("%cBACK END PROBLEMS 😊", "font-size: 30px; color: red; background-color: black; font-weight: bold; padding: 5px;");
 
   return (
     <BrowserRouter>
@@ -58,4 +60,4 @@ function App() {
   );
 }
 
-export default App;
+export default memo(App);

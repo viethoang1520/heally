@@ -1,37 +1,39 @@
-import { useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
+import { useStopwatch } from 'react-timer-hook';
+import { toast } from 'sonner';
 import { ButtonBlink } from '../../Components';
 import AvatarRipple from '../../Components/AvatarRipple/AvatarRipple';
-import './Avocado.scss'
 import { AppContext } from '../../Context/AppContext';
-import { toast } from 'sonner';
-import { useStopwatch } from 'react-timer-hook';
+import './Avocado.scss';
 
 function Avocado() {
      const { userLogin, socketRef } = useContext(AppContext);
      const [isFinding, setIsFinding] = useState(false);
-     const { seconds, minutes, start, pause } = useStopwatch({ autoStart: true });
+     const { seconds, minutes, start, pause } = useStopwatch({ autoStart: false });
 
      const handleClick = () => {
-          if (!isFinding) {
+          if (isFinding) {
+               setIsFinding(false);
+               socketRef.current.emit('stop find', userLogin);
+               console.log('Stop finding');
+               pause();
+          } else {
                setIsFinding(true);
                console.log('Finding....');
                socketRef.current.emit('find', userLogin);
                start();
-          } else {
-               setIsFinding(false);
-               socketRef.current.emit('stop find', userLogin);
-               console.log('Stop finding');
           }
-     }
+     };
 
      useEffect(() => {
-          socketRef.current.on('matched', (obj) => {
-               console.log('Matched');
-               console.log(obj);
+          const handleMatched = (matched) => {
+               console.log('Matched', matched);
                setIsFinding(false);
                pause();
-               toast.success('Đã tìm thấy');
-          })
+               toast.success(`Đã tìm thấy: ${matched.user.nickname}`);
+          };
+          socketRef.current?.on('matched', handleMatched);
+          return () => socketRef.current?.off('matched', handleMatched);
      }, [socketRef]);
 
      return (
@@ -41,10 +43,16 @@ function Avocado() {
                          isFinding={isFinding}
                          linkAvatar={userLogin.avatar.link}
                     />
-                    <div className='btn-block' onClick={handleClick}><ButtonBlink>{isFinding ? `${minutes < 10 ? '0' + minutes : minutes} : ${seconds < 10 ? '0' + seconds : seconds}` : 'Tìm'}</ButtonBlink></div>
+                    <div className='btn-block' onClick={handleClick}>
+                         <ButtonBlink>
+                              {isFinding
+                                   ? `${minutes < 10 ? '0' + minutes : minutes} : ${seconds < 10 ? '0' + seconds : seconds}`
+                                   : 'Tìm'}
+                         </ButtonBlink>
+                    </div>
                </div>
           </div>
      );
 }
 
-export default Avocado;
+export default memo(Avocado);

@@ -11,7 +11,7 @@ const publicRoutes = [
 
 const privateRoutes = [
      { path: '/chat', component: Chat },
-     { path: '/vocado', component: Vocado },
+     { path: '/avocado', component: Vocado },
      { path: '/friend', component: FriendsView },
      { path: '/profile', component: Profile },
      { path: '/addfriend', component: AddFriend },

@@ -1,14 +1,14 @@
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
+import { Flex, Progress } from 'antd';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import zxcvbn from 'zxcvbn';
 import { registerUser } from '../../apis/authentication';
 import logo from '../../assets/logo-with-text.png';
 import { LoadingVocado } from '../../Components';
 import './SignUp.scss';
-import { Flex, Progress } from 'antd';
-import { toast } from 'sonner';
 
 function SignUp() {
      const navigate = useNavigate()
@@ -51,13 +51,14 @@ function SignUp() {
           e.preventDefault();
           setShowLoading(true);
           if (isValidate) {
-               const res = await registerUser(formData);
-               console.log(res);
-               if (res.data.error_code == 0) {
+               const {data} = await registerUser(formData);
+               console.log(data);
+               if (data.error_code == 0) {
                     toast.success('Đăng ký tài khoản thành công!');
                     navigate('/login');
                } else {
-                    setErrorCode({ code: res.error_code, msg: res.msg });
+                    setErrorCode({ code: data.error_code, msg: data.msg });
+                    console.log(errorCode);
                }
           }
           setShowLoading(false);
@@ -100,7 +101,7 @@ function SignUp() {
                     <img src={logo} className='logo' alt="" />
                     <h1 className='title'>Tạo tài khoản mới</h1>
 
-                    <div className={classNames('input-block', { 'incorrect': errorCode == 1 })} >
+                    <div className={classNames('input-block', { 'incorrect': errorCode.code == 1 })} >
                          <label htmlFor="username" className='label username'>Tên đăng nhập</label>
                          <input
                               type="text"
@@ -112,7 +113,7 @@ function SignUp() {
                               required
                          />
 
-                         {errorCode == 1
+                         {errorCode.code == 1
                               ? <span className='incorrect-msg'>*Tên đăng nhập đã tồn tại</span>
                               : ""
                          }
