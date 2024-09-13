@@ -1,22 +1,32 @@
 import { Icon } from '@iconify-icon/react';
 import classNames from "classnames/bind";
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import mainLogo from '../../assets/logo-heally.png';
 import { memo, useCallback, useContext } from 'react';
 import { AppContext } from '../../Context/AppContext';
+import { toast } from 'sonner';
 
 function Header() {
-
-     const { theme, setTheme } = useContext(AppContext);
+     const navigate = useNavigate();
+     const { setUserLogin } = useContext(AppContext);
 
      const handleClickTest = useCallback(() => {
-          if (theme === 'light-theme') {
-               setTheme('dark-theme');
-          } else {
-               setTheme('light-theme');
-          }
-     }, [setTheme, theme]);
+          // if (theme === 'light-theme') {
+          //      setTheme('dark-theme');
+          // } else {
+          //      setTheme('light-theme');
+          // }
+          // const logout = async () => {
+          // const { data } = await logout();
+          // if (data.error_code == 0) {
+          toast.success(`Đăng xuất thành công`);
+          navigate('/login');
+          localStorage.removeItem('token');
+          setUserLogin({});
+          // }
+          // }
+     }, []);
 
      return (
           <header className="header">
@@ -92,7 +102,7 @@ function Header() {
                </ul>
 
                <div className="other-btn">
-                    <button onClick={handleClickTest}>TEST</button>
+                    <button onClick={handleClickTest}>LOG</button>
                </div>
           </header>
      );

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosClient from './axiosClient';
 const baseURL = import.meta.env.VITE_APP_API_URL;
 
 export const registerUser = async ({ username, name, password, confirmPassword }) => {
@@ -22,7 +23,7 @@ export const loginUser = async ({ username, password }) => {
 export const addInformation = async ({ userID, avatar, gender, nickname, oppositeGender }) => {
      try {
           const url = baseURL + '/register/add';
-          return await axios.post(url, { userID, avatar, gender, nickname, oppositeGender });
+          return await axiosClient.post(url, { userID, avatar, gender, nickname, oppositeGender });
      } catch (error) {
           console.log('Error at ADD INFORMATION API: ' + error);
      }
@@ -38,5 +39,24 @@ export const getUser = async (userID) => {
           })
      } catch (error) {
           console.log('Error at GET USER API: ' + error);
+     }
+}
+
+export const isValidUser = async () => {
+     try {
+          const token = localStorage.getItem('token');
+          return await axiosClient.get(`/user/valid`, {
+               headers: { Authorization: JSON.parse(token) },
+          });
+     } catch (error) {
+          console.log('Error at isValidUser: ' + error);
+     }
+}
+
+export const logout = async () => {
+     try {
+          return await axiosClient.get('logout');
+     } catch (error) {
+          console.log(error);
      }
 }

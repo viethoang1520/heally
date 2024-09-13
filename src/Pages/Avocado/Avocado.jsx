@@ -25,10 +25,8 @@ function Avocado() {
                reset();
           } else {
                setIsFinding(true);
-               console.log('Finding....');
                start();
                timeRef.current = setTimeout(() => {
-                    console.log('socket emit');
                     socketRef.current.emit('finding', userLogin);
                }, 2500);
           }
@@ -45,7 +43,7 @@ function Avocado() {
                socketRef.current?.on('matched', handleMatched);
                return () => socketRef.current?.off('matched', handleMatched);
           }
-     }, [isSocketConnect, seconds]);
+     }, [isSocketConnect, seconds, minutes]);
 
      return (
           <div className="avocado">

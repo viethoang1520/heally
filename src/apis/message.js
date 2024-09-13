@@ -1,10 +1,9 @@
-import axios from 'axios';
-const baseURL = import.meta.env.VITE_APP_API_URL;
+import axiosClient from './axiosClient';
 
 export const getChatMessage = async (chatID) => {
-     const url = `${baseURL}/message`;
+     const url = `/message`;
      try {
-          return axios.get(url, {
+          return axiosClient.get(url, {
                params: {
                     chatID
                }
@@ -15,9 +14,9 @@ export const getChatMessage = async (chatID) => {
 }
 
 export const sendMessage = async (rootUserID, chatID, message) => {
-     const url = `${baseURL}/message`;
+     const url = `/message`;
      try {
-          return axios.post(url, {
+          return axiosClient.post(url, {
                rootUserID, chatID, message
           });
      } catch (error) {

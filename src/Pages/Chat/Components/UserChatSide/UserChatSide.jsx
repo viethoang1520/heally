@@ -28,6 +28,7 @@ function UserChatSide() {
                     setIsLoading(true);
                     try {
                          const { data } = await getAllChat(userLogin._id);
+                         console.log(data);
                          setListChat(data.message);
                     } finally {
                          setIsLoading(false);

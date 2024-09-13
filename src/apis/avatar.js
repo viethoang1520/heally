@@ -1,11 +1,9 @@
-import axios from 'axios';
-
-const baseURL = import.meta.env.VITE_APP_API_URL;
+import axiosClient from './axiosClient';
 
 export const getTypeAvatar = async () => {
      try {
-          const url = `${baseURL}/avatar/type`
-          return await axios.get(url);
+          const url = `/avatar/type`
+          return await axiosClient.get(url);
      } catch (error) {
           console.log(`Error at getTypeAvatar (avatar.js): ${error}`);
      }
@@ -13,8 +11,8 @@ export const getTypeAvatar = async () => {
 
 export const getAvatar = async (type) => {
      try {
-          const url = `${baseURL}/avatar`;
-          return await axios.get(url, {
+          const url = `/avatar`;
+          return await axiosClient.get(url, {
                params: {
                     type
                }

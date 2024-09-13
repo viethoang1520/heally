@@ -36,7 +36,7 @@ function BoxchatUser({ avatarLink, name, lastMsg, statusRead, statusOnline, time
                </div>
                <div className="text-block">
                     <h1 className="name">{name}</h1>
-                    <p className="last-msg">{lastMessage}</p>
+                    <p className="last-msg">{lastMsg.sender._id == userLogin._id ? `Bạn: ${lastMessage}` : lastMessage}</p>
                </div>
                <div className="more-block">
                     <p className="time">{timeProcessed}</p>

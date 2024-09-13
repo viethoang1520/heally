@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { io } from 'socket.io-client';
+import { isValidUser } from '../apis/authentication';
 const URL = import.meta.env.VITE_APP_API_URL;
 
 export const AppContext = createContext({});
@@ -8,16 +9,24 @@ export const AppContext = createContext({});
 export const AppProvider = ({ children }) => {
      const [isLoading, setIsLoading] = useState(false);
      const [isSocketConnect, setIsSocketConnect] = useState(false);
-     const [room, setRoom] = useState("")
      const [userLogin, setUserLogin] = useState(JSON.parse(sessionStorage.getItem('userLogin')));
      const [theme, setTheme] = useState('light-theme');
      const [registerSideInfor, setRegisterSideInfor] = useState({ userID: '', avatar: '', gender: '', nickname: '', oppositeGender: '' });
      const socketRef = useRef(null);
 
      useEffect(() => {
-          const user = sessionStorage.getItem('userLogin');
-          if (user) {
-               setUserLogin(JSON.parse(user));
+          const token = localStorage.getItem('token');
+          const fetchUserToken = async () => {
+               setIsLoading(true);
+               const { data } = await isValidUser();
+               console.log(data);
+               if (data.user) {
+                    setUserLogin(data.user);
+               }
+               setIsLoading(false);
+          }
+          if (JSON.parse(token)) {
+               fetchUserToken();
           }
      }, []);
 
@@ -41,25 +50,10 @@ export const AppProvider = ({ children }) => {
           };
      }, [userLogin]);
 
-     // useLayoutEffect(() => {
-     //      if (userLogin) {
-     //           initializeSocket();
-     //      }
-
-     //      return () => {
-     //           if (socketRef.current) {
-     //                socketRef.current?.disconnect();
-     //                socketRef.current = null;
-     //           }
-     //      };
-     // }, []);
-
      return <AppContext.Provider
           value={{
                userLogin,
                setUserLogin,
-               room,
-               setRoom,
                registerSideInfor,
                setRegisterSideInfor,
                isLoading,
@@ -67,7 +61,7 @@ export const AppProvider = ({ children }) => {
                theme,
                setTheme,
                socketRef,
-               isSocketConnect
+               isSocketConnect,
           }}
      >
           {children}

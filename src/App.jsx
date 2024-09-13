@@ -8,7 +8,7 @@ import { PrivateRouteComponent, privateRoutes, publicRoutes } from './Routes';
 
 function App() {
   const { isLoading, theme } = useContext(AppContext);
-  // console.log("%cBACK END PROBLEMS 😊", "font-size: 30px; color: red; background-color: black; font-weight: bold; padding: 5px;");
+  // console.log("%c 😊", "font-size: 30px; color: red; background-color: black; font-weight: bold; padding: 5px;");
 
   return (
     <BrowserRouter>

@@ -1,12 +1,15 @@
-import axios from 'axios';
-const baseURL = import.meta.env.VITE_APP_API_URL;
-// const baseURL = 'http://localhost:3000';
+import axiosClient from './axiosClient';
+// import axios from "axios";
 
 export const getAllChat = async (id) => {
      try {
-          const url = baseURL + '/chat';
-          return await axios.get(url, {
-               params: { rootUserID: id }
+          const url = '/chat';
+          const token = localStorage.getItem('token');
+          return await axiosClient.get(url, {
+               params: { rootUserID: id },
+               headers: {
+                    Authorization: JSON.parse(token)
+               }
           });
      } catch (error) {
           console.log(`Error at getAllChat (apis/chat.js):  ${error}`);
@@ -15,8 +18,8 @@ export const getAllChat = async (id) => {
 
 export const ratingUser = async (partnerID, stars) => {
      try {
-          const url = `${baseURL}/star/rate`;
-          return await axios.post(url, {
+          const url = `/star/rate`;
+          return await axiosClient.post(url, {
                partnerID, stars
           });
      } catch (error) {
