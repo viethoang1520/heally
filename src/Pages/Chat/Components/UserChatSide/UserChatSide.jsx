@@ -28,7 +28,6 @@ function UserChatSide() {
                     setIsLoading(true);
                     try {
                          const { data } = await getAllChat(userLogin._id);
-                         console.log(data.message);
                          setListChat(data.message);
                     } finally {
                          setIsLoading(false);
@@ -43,7 +42,6 @@ function UserChatSide() {
                <div className='user-info'>
                     <div className="avatar-block">
                          <img src={userLogin.avatar.link || DefaultAvatar}
-                              alt=""
                               className='user-avatar'
                          />
                          <span className="tick-online">.</span>
@@ -94,7 +92,6 @@ function UserChatSide() {
                                              time={user.latestMessage.createdAt}
                                              statusOnline={user.statusOnline}
                                              statusRead={user.statusRead}
-                                             // current={user.current}
                                              setRoom={setRoom}
                                              roomId={user._id}
                                              userId={user.oppositeUser._id}

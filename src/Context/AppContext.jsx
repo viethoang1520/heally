@@ -14,8 +14,6 @@ export const AppProvider = ({ children }) => {
      const [registerSideInfor, setRegisterSideInfor] = useState({ userID: '', avatar: '', gender: '', nickname: '', oppositeGender: '' });
      const socketRef = useRef(null);
 
-     console.log(socketRef.current);
-
      useEffect(() => {
           const user = sessionStorage.getItem('userLogin');
           if (user) {

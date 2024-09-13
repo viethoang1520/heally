@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { useStopwatch } from 'react-timer-hook';
 import { toast } from 'sonner';
 import { ButtonBlink } from '../../Components';
@@ -10,24 +10,29 @@ function Avocado() {
      const { userLogin, socketRef, isSocketConnect } = useContext(AppContext);
      const [isFinding, setIsFinding] = useState(false);
      const { seconds, minutes, start, pause, reset } = useStopwatch({ autoStart: false });
+     let timeRef = useRef(null);
 
      const handleClick = () => {
           if (isFinding) {
                setIsFinding(false);
                socketRef.current.emit('stop finding', userLogin);
-               console.log('Stop finding');
                toast.info('Đã hủy tìm kiếm');
+               if (timeRef.current) {
+                    clearTimeout(timeRef.current);
+                    timeRef.current = null;
+               }
                pause();
                reset();
           } else {
                setIsFinding(true);
                console.log('Finding....');
                start();
-               setTimeout(() => {
+               timeRef.current = setTimeout(() => {
+                    console.log('socket emit');
                     socketRef.current.emit('finding', userLogin);
-               }, 3500);
+               }, 2500);
           }
-     };
+     }
 
      useEffect(() => {
           if (isSocketConnect) {

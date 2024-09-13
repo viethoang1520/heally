@@ -1,24 +1,19 @@
 import classNames from 'classnames';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { addInformation, getUser } from '../../apis/authentication';
 import StepProcess from '../../Components/StepProcess';
 import { AppContext } from '../../Context/AppContext';
 import './AddInformation.scss';
-import SelectAvatar from './Components/SelectAvatar/SelectAvatar';
-import SelectGender from './Components/SelectGender/SelectGender';
-import SelectNickname from './Components/SelectNickname/SelecNickname';
-import SelectOppositeGender from './Components/SelectOppositeGender/SelectOppostieGender';
-import WelcomeStep from './Components/WelcomeStep/WelcomeStep';
-import { toast } from 'sonner';
-
-const LAST_STEP = 3;
+import { SelectAvatar, SelectGender, SelectNickname, SelectOppostieGender, WelcomeStep } from './Components';
 
 function AddInformation() {
      const [step, setStep] = useState(-1);
      const { registerSideInfor, userLogin, setUserLogin } = useContext(AppContext);
      const navigate = useNavigate();
      const [isValidate, setIsValidate] = useState(true);
+     const LAST_STEP = useRef(3);
 
      const handleSubmit = async () => {
           if (isValidate) {
@@ -41,14 +36,14 @@ function AddInformation() {
           switch (step) {
                case 0: return <SelectAvatar />
                case 1: return <SelectGender />
-               case 2: return <SelectOppositeGender />
+               case 2: return <SelectOppostieGender />
                case 3: return <SelectNickname />
           }
      }
 
 
      const handleNextStep = () => {
-          if (step < LAST_STEP && isValidate) {
+          if (step < LAST_STEP.current && isValidate) {
                setStep(step + 1);
           }
           if (!isValidate) {
