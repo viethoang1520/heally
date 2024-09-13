@@ -1,12 +1,13 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class LoginController {
   // Tested
   async validate(req, res) {
     try {
       const { username, password } = req.body;
-      const user = await User.findOne({ username: username }).populate({
+      const user = await User.findOne({ username }).populate({
         path: 'avatar',
         select: 'link'
       })
@@ -21,7 +22,10 @@ class LoginController {
       }
       const valid = await bcrypt.compare(password, user.password_hash);
       if (valid) {
-        return res.json({ "error_code": 0, user });
+        const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET, {
+          expiresIn: '20d', 
+        });
+        return res.json({ "error_code": 0, user, token });
       } else {
         let wrongPasswordMsg = "Mật khẩu không đúng";
         return res.json({ "error_code": 2, "message": wrongPasswordMsg });

@@ -11,8 +11,6 @@ const matchWithPerson = (socket, userData, person, roomID) => {
 const matchWithCondition = (socket, userData, genderList, exceptGender, roomID) => {
   for (let user of genderList) {
     if (user.userData.oppositeGender !== exceptGender) {
-      console.log("except gender", exceptGender)
-      console.log("opposite gender", user.userData.oppositeGender)
       const userIndex = genderList.indexOf(user)
       const person = genderList.splice(userIndex, 1)[0]
       matchWithPerson(socket, userData, person, roomID);

@@ -87,6 +87,7 @@ function configureSocketIO(server, maleList, femaleList) {
       }
     })
 
+    // when user stop finding 
     socket.on('stop finding', (userData) => {
       const userID = userData._id
       const userGender = userData.gender
@@ -102,7 +103,7 @@ function configureSocketIO(server, maleList, femaleList) {
     socket.on('stop typing', (room) => socket.in(room).emit('stop typing'));
 
     socket.on('new message', (newMessageReceive) => {
-      var chat = newMessageReceive.chatID;
+      let chat = newMessageReceive.chatID;
       if (!chat.users) {
         console.log('chats.users is not defined');
       }
@@ -111,6 +112,18 @@ function configureSocketIO(server, maleList, femaleList) {
         socket.in(user._id).emit('message received', newMessageReceive);
       });
     });
+    
+    // A  tạo ra roomID = A._id
+    // B  tạo ra roomID = B._id
+
+    socket.on('random message', (data) => {
+      // client sends rootUserID, userID, message, roomID
+      const { rootUserID, userID, message } = data
+      if (!rootUserID || !userID) {
+        console.log('Missing chat users')
+      }
+      socket.in(userID).emit('message received', data)
+    })
   });
 }
 
