@@ -1,13 +1,13 @@
-const login = require('./login');
-const register = require('./register');
-const facebook = require('./facebook-auth')
-const google = require('./google-auth')
+const login = require('./account/login');
+const register = require('./account/register');
+const facebook = require('./account/facebook-auth')
+const google = require('./account/google-auth')
 const error = require('./error')
-const chat = require('./chat')
-const message = require('./message')
-const avatar = require('./avatar')
-const star = require('./star')
-const user = require('./user')
+const chat = require('./chat/chat')
+const message = require('./chat/message')
+const avatar = require('./user/avatar')
+const star = require('./user/star')
+const user = require('./user/user')
 
 function routes(app) {
   app.use('/user', user)
