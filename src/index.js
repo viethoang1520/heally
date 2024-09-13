@@ -39,5 +39,5 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.log(`Server is running at http://localhost:${process.env.PORT || 3000}`);
 });
 
-const connectSocket = require('./config/chat/socketConfig')
+const connectSocket = require('./app/controllers/chat/socketController')
 connectSocket(server, maleList, femaleList)

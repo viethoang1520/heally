@@ -1,6 +1,6 @@
 const Server = require("socket.io");
 const crypto = require('crypto')
-const { matchWithCondition } = require('../../utils/RandomMatch')
+const { matchWithCondition } = require('../../../utils/RandomMatch')
 
 function configureSocketIO(server, maleList, femaleList) {
   const io = new Server.Server(server, {
@@ -87,6 +87,17 @@ function configureSocketIO(server, maleList, femaleList) {
       }
     })
 
+    socket.on('stop finding', (userData) => {
+      const userID = userData._id
+      const userGender = userData.gender
+      const userList = userGender === 1 ? maleList : femaleList
+      for (let user of userList) {
+        if (userID === user.userData._id) {
+          userList.splice(userList.indexOf(user), 1)
+          return
+        }
+      }
+    })
     socket.on('typing', (room) => socket.in(room).emit('typing'));
     socket.on('stop typing', (room) => socket.in(room).emit('stop typing'));
 
@@ -104,5 +115,4 @@ function configureSocketIO(server, maleList, femaleList) {
 }
 
 module.exports = configureSocketIO;
-
 
