@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { createContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createContext, useLayoutEffect, useRef, useState } from "react";
 import { io } from 'socket.io-client';
 import { isValidUser } from '../apis/authentication';
 const URL = import.meta.env.VITE_APP_API_URL;
@@ -14,7 +14,7 @@ export const AppProvider = ({ children }) => {
      const [registerSideInfor, setRegisterSideInfor] = useState({ userID: '', avatar: '', gender: '', nickname: '', oppositeGender: '' });
      const socketRef = useRef(null);
 
-     useEffect(() => {
+     useLayoutEffect(() => {
           const token = localStorage.getItem('token');
           const fetchUserToken = async () => {
                setIsLoading(true);
@@ -43,8 +43,8 @@ export const AppProvider = ({ children }) => {
           return () => {
                if (socketRef.current) {
                     console.log('Disconnect');
-                    socketRef.current.disconnect();
-                    socketRef.current = null;
+                    // socketRef.current.disconnect();
+                    // socketRef.current = null;
                     setIsSocketConnect(false);
                }
           };
