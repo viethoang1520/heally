@@ -6,10 +6,12 @@ import mainLogo from '../../assets/logo-heally.png';
 import { memo, useCallback, useContext } from 'react';
 import { AppContext } from '../../Context/AppContext';
 import { toast } from 'sonner';
+// import { isValidUser } from '../../apis/authentication';
 
 function Header() {
      const navigate = useNavigate();
      const { setUserLogin } = useContext(AppContext);
+     // const [isSpam, setIsSpam] = useState(false);
 
      const handleClickTest = useCallback(() => {
           toast.success(`Đăng xuất thành công`);
@@ -18,6 +20,14 @@ function Header() {
           sessionStorage.removeItem('userLogin');
           setUserLogin();
      }, []);
+
+     // const handleSpam = async () => {
+     //      setIsSpam(true);
+     //      while (isSpam) {
+     //           const { data } = await isValidUser();
+     //           console.log('Spam');
+     //      }
+     // }
 
      return (
           <header className="header">
@@ -95,6 +105,10 @@ function Header() {
                <div className="other-btn">
                     <button onClick={handleClickTest}>LOG</button>
                </div>
+
+               {/* <div className="other-btn">
+                    <button onClick={handleSpam}>SPAM</button>
+               </div> */}
           </header>
      );
 }

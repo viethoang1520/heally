@@ -22,8 +22,9 @@ export const loginUser = async ({ username, password }) => {
 
 export const addInformation = async ({ userID, avatar, gender, nickname, oppositeGender }) => {
      try {
-          const url = baseURL + '/register/add';
-          return await axiosClient.post(url, { userID, avatar, gender, nickname, oppositeGender });
+          const url = '/register/add';
+          const token = localStorage.getItem('token');
+          return await axiosClient(token).post(url, { userID, avatar, gender, nickname, oppositeGender });
      } catch (error) {
           console.log('Error at ADD INFORMATION API: ' + error);
      }
@@ -31,8 +32,9 @@ export const addInformation = async ({ userID, avatar, gender, nickname, opposit
 
 export const getUser = async (userID) => {
      try {
-          const url = `${baseURL}/user`;
-          return await axios.get(url, {
+          const url = `/user`;
+          const token = localStorage.getItem('token');
+          return await axiosClient(token).get(url, {
                params: {
                     userID
                }
@@ -45,18 +47,9 @@ export const getUser = async (userID) => {
 export const isValidUser = async () => {
      try {
           const token = localStorage.getItem('token');
-          return await axiosClient.get(`/user/valid`, {
-               headers: { Authorization: JSON.parse(token) },
-          });
+          return await axiosClient(token).get(`/user/valid`);
      } catch (error) {
           console.log('Error at isValidUser: ' + error);
      }
 }
 
-export const logout = async () => {
-     try {
-          return await axiosClient.get('logout');
-     } catch (error) {
-          console.log(error);
-     }
-}
