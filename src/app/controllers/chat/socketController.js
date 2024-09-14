@@ -1,5 +1,6 @@
 const Server = require("socket.io");
 const crypto = require('crypto')
+const filterMessage = require('../../../middleware/MessageFilter')
 const { matchWithCondition } = require('../../../utils/RandomMatch')
 
 function configureSocketIO(server, maleList, femaleList) {
@@ -104,6 +105,7 @@ function configureSocketIO(server, maleList, femaleList) {
 
     socket.on('new message', (newMessageReceive) => {
       let chat = newMessageReceive.chatID;
+      chat.message = filterMessage(chat.message)
       if (!chat.users) {
         console.log('chats.users is not defined');
       }
@@ -112,9 +114,7 @@ function configureSocketIO(server, maleList, femaleList) {
         socket.in(user._id).emit('message received', newMessageReceive);
       });
     });
-    
-    // A  tạo ra roomID = A._id
-    // B  tạo ra roomID = B._id
+
 
     socket.on('random message', (data) => {
       // client sends rootUserID, userID, message, roomID
