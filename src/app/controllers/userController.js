@@ -29,8 +29,7 @@ class UserController {
   async validUser(req, res) {
     try {
       // token includes id and username
-      const token = req.headers['token']
-      const { id } = jwt.verify(token, process.env.JWT_SECRET)
+      const id = req.id
       const validUser = await User.findById(id).populate({
         path: 'avatar',
         select: 'link'

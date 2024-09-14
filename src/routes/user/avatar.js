@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const Auth = require('../../middleware/AuthenticateJWT')
 const avatarController = require("../../app/controllers/avatarController");
 
-router.get('/', avatarController.getAvatarsByType);
+router.get('/', Auth, avatarController.getAvatarsByType);
+router.post('/', Auth, avatarController.createAvatar);
 router.get('/type', avatarController.getAvatarTypes);
-router.post('/', avatarController.createAvatar);
 
 module.exports = router;
