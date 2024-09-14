@@ -31,7 +31,9 @@ class UserController {
       // token includes id and username
       const id = req.id
       const token = req.token
-      const validUser = await User.findById(id).populate({
+      const validUser = await User.findById(id)
+        .select('-password_hash')
+        .populate({
         path: 'avatar',
         select: 'link'
       })
