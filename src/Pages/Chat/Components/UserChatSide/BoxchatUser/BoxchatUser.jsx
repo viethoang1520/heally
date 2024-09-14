@@ -19,7 +19,7 @@ function BoxchatUser({ avatarLink, name, lastMsg, statusRead, statusOnline, time
                setLastMessage(`${newMessage.sender._id == userLogin._id ? 'Bạn: ' : ''} ${newMessage.message}`);
           }
      }, [newMessage, userLogin, roomId]);
-     
+
      const handleSelectChat = useCallback(() => {
           setRoom(roomId);
           setOppositeUser({ avatarLink, name, userId, rating });

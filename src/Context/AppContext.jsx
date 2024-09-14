@@ -9,7 +9,7 @@ export const AppContext = createContext({});
 export const AppProvider = ({ children }) => {
      const [isLoading, setIsLoading] = useState(false);
      const [isSocketConnect, setIsSocketConnect] = useState(false);
-     const [userLogin, setUserLogin] = useState(JSON.parse(sessionStorage.getItem('userLogin')));
+     const [userLogin, setUserLogin] = useState();
      const [theme, setTheme] = useState('light-theme');
      const [registerSideInfor, setRegisterSideInfor] = useState({ userID: '', avatar: '', gender: '', nickname: '', oppositeGender: '' });
      const socketRef = useRef(null);
@@ -19,7 +19,6 @@ export const AppProvider = ({ children }) => {
           const fetchUserToken = async () => {
                setIsLoading(true);
                const { data } = await isValidUser();
-               console.log(data);
                if (data.user) {
                     setUserLogin(data.user);
                }
@@ -27,6 +26,8 @@ export const AppProvider = ({ children }) => {
           }
           if (JSON.parse(token)) {
                fetchUserToken();
+          } else {
+               setUserLogin(null);
           }
      }, []);
 

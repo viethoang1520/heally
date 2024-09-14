@@ -12,20 +12,11 @@ function Header() {
      const { setUserLogin } = useContext(AppContext);
 
      const handleClickTest = useCallback(() => {
-          // if (theme === 'light-theme') {
-          //      setTheme('dark-theme');
-          // } else {
-          //      setTheme('light-theme');
-          // }
-          // const logout = async () => {
-          // const { data } = await logout();
-          // if (data.error_code == 0) {
           toast.success(`Đăng xuất thành công`);
           navigate('/login');
           localStorage.removeItem('token');
-          setUserLogin({});
-          // }
-          // }
+          sessionStorage.removeItem('userLogin');
+          setUserLogin();
      }, []);
 
      return (

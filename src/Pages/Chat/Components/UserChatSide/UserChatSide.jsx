@@ -1,7 +1,7 @@
 import './UserChatSide.scss';
 import { Icon } from "@iconify-icon/react/dist/iconify.mjs";
 import BoxchatUser from "./BoxchatUser/BoxchatUser";
-import { memo, useContext, useEffect, useState } from 'react';
+import { memo, useContext, useLayoutEffect, useState } from 'react';
 import { AppContext } from '../../../../Context/AppContext';
 import { DefaultAvatar } from '../../../../assets/avatar';
 import { getAllChat } from '../../../../apis/chat';
@@ -22,13 +22,12 @@ function UserChatSide() {
                .toLowerCase()
      }
 
-     useEffect(() => {
-          if (userLogin._id) {
+     useLayoutEffect(() => {
+          if (userLogin) {
                const fetchData = async () => {
                     setIsLoading(true);
                     try {
                          const { data } = await getAllChat(userLogin._id);
-                         console.log(data);
                          setListChat(data.message);
                     } finally {
                          setIsLoading(false);
@@ -36,19 +35,19 @@ function UserChatSide() {
                }
                fetchData();
           }
-     }, [userLogin._id, setIsLoading]);
+     }, [userLogin, setIsLoading]);
 
      return (
           <div className="user-chat-side">
                <div className='user-info'>
                     <div className="avatar-block">
-                         <img src={userLogin.avatar.link || DefaultAvatar}
+                         <img src={userLogin?.avatar.link || DefaultAvatar}
                               className='user-avatar'
                          />
                          <span className="tick-online">.</span>
                     </div>
 
-                    <h1 className='user-name'>{userLogin.full_name}</h1>
+                    <h1 className='user-name'>{userLogin?.full_name}</h1>
                     <div className='status'>
                          <span className="text">Hoạt động</span>
                          <Icon icon="mdi:tick-all" />

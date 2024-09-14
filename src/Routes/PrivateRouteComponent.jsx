@@ -1,13 +1,11 @@
 import { Navigate } from "react-router-dom";
 import PropTypes from 'prop-types';
-import { useContext } from "react";
-import { AppContext } from '../Context/AppContext';
 
 function PrivateRouteComp({ children }) {
      let isAuthenticated = false;
-     const { userLogin } = useContext(AppContext);
-
-     if (userLogin !== null) {
+     const token = localStorage.getItem('token');
+     
+     if (token) {
           isAuthenticated = true;
      } else {
           isAuthenticated = false;
