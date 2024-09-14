@@ -4,6 +4,7 @@ const routes = require("./routes");
 const session = require('express-session');
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const {limiter} = require('./middleware/RateLimit')
 
 require('dotenv').config();
 // const mySQL = require("./config/db/mySQL");
@@ -13,6 +14,7 @@ const app = express();
 // mySQL.connect() 
 mongoDB.connect()
 
+app.use(limiter)
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
