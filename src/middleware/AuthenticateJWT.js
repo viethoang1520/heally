@@ -14,6 +14,7 @@ const authenticateJWT = async (req, res, next) => {
         const { id, username } = decoded
         req.id = id
         req.username = username
+        req.token = token
         next()
       });
     } else {

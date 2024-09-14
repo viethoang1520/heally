@@ -30,6 +30,7 @@ class UserController {
     try {
       // token includes id and username
       const id = req.id
+      const token = req.token
       const validUser = await User.findById(id).populate({
         path: 'avatar',
         select: 'link'
