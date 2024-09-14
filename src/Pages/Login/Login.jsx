@@ -32,18 +32,16 @@ function Login() {
           e.preventDefault();
           setShowLoading(true);
           const { data } = await loginUser(formData);
-          console.log(data);
           if (data.error_code === 0) {
                localStorage.setItem('token', JSON.stringify(data.token));
-               if (data.user.status === 0) {
+               const res = await isValidUser();
+               sessionStorage.setItem('userLogin', JSON.stringify(res.data.user));
+               setUserLogin(res.data.user);
+               if (res.data.user.status === 0) {
                     toast.success(`Đăng nhập thành công! Vui lòng hoàn thành thông tin để tiếp tục`);
-                    setUserLogin(data.user);
-                    sessionStorage.setItem('userLogin', JSON.stringify(data.user));
                     navigate('/addinformation');
                } else {
-                    sessionStorage.setItem('userLogin', JSON.stringify(data.user));
-                    setUserLogin(data.user);
-                    toast.success(`Chào mừng ${data.user.full_name}`);
+                    toast.success(`Chào mừng ${res.data.user.full_name}`);
                     navigate('/chat');
                }
           } else {

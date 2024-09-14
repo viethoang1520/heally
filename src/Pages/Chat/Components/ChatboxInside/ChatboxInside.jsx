@@ -35,7 +35,6 @@ function ChatboxInside() {
                setListMessage([...listMessage, { message: textMsg, sender: { _id: userLogin._id } }]);
                setNewMessage({ message: textMsg, sender: { _id: userLogin._id }, chatID: { _id: room } });
                const { data } = await sendMessage(userLogin._id, room, textMsg);
-               console.log(data.message);
                socketRef.current?.emit("new message", data.message);
                setTextMsg('');
           }

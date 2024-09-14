@@ -9,7 +9,7 @@ export const AppContext = createContext({});
 export const AppProvider = ({ children }) => {
      const [isLoading, setIsLoading] = useState(false);
      const [isSocketConnect, setIsSocketConnect] = useState(false);
-     const [userLogin, setUserLogin] = useState();
+     const [userLogin, setUserLogin] = useState(JSON.parse(sessionStorage.getItem('userLogin')));
      const [theme, setTheme] = useState('light-theme');
      const [registerSideInfor, setRegisterSideInfor] = useState({ userID: '', avatar: '', gender: '', nickname: '', oppositeGender: '' });
      const socketRef = useRef(null);
@@ -27,7 +27,7 @@ export const AppProvider = ({ children }) => {
           if (JSON.parse(token)) {
                fetchUserToken();
           } else {
-               setUserLogin(null);
+               setUserLogin();
           }
      }, []);
 
