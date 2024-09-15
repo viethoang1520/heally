@@ -26,6 +26,7 @@ class UserController {
     }
   }
 
+  //Tested
   async validUser(req, res) {
     try {
       // token includes id and username

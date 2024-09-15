@@ -14,7 +14,6 @@ function routes(app) {
   app.use('/register', register);
   app.use('/auth/facebook', facebook);
   app.use('/auth/google', google);
-
   app.use('/chat', chat);
   app.use('/message', message);
   app.use('/avatar', avatar);

@@ -1,7 +1,4 @@
 const matchWithPerson = (socket, userData, person, roomID) => {
-  // console.log(userData.full_name)
-  // console.log(person.userData.full_name)
-  // console.log('-------------------------')
   socket.join(roomID);
   person.socket.join(roomID);
   socket.emit('matched', { roomID, user: person.userData });
