@@ -22,7 +22,7 @@ const authenticateJWT = async (req, res, next) => {
       req.rootUserEmail = data.email
       const googleUser = await user
         .findOne({ email: req.rootUserEmail })
-        .select('-password')
+        .select('-password_hash')
       req.rootUser = googleUser
       req.token = token
       req.rootUserID = googleUser._id

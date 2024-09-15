@@ -1,47 +1,38 @@
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
-const User = require('../../models/User');
-require('dotenv').config()
+const User = require('../../models/User'); // Replace with your user model
+require('dotenv')
 
-// Facebook Strategy configuration
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: 'http://localhost:3000/auth/facebook/callback',
-  profileFields: ['id', 'displayName', 'email', 'gender']
+  callbackURL: "/auth/facebook/callback",
+  profileFields: ['id', 'emails', 'name']
 },
-  async function (accessToken, refreshToken, profile, done) {
-    try {
-      console.log('Đang ở trong facebookController');
-
-      let user = await User.findOne({ username: profile.id });
-
-      if (!user) {
-        user = new User({
-          username: profile.id,
-          full_name: profile.displayName,
-          password_hash: '***',
-          status: 1,
-          provider: 'facebook',
-          email: profile.emails[0].value
-        });
-
-        await user.save();
-      }
-
-      return done(null, user);
-    } catch (error) {
-      return done(error);
+  async (accessToken, refreshToken, profile, done) => {
+    // Check if user already exists in our db
+    const existingUser = await User.findOne({ username: profile.id });
+    if (existingUser) {
+      // User exists, return user
+      return done(null, existingUser);
     }
+    // User does not exist, create a new user
+    const newUser = await new User({
+      username: profile.id,
+      password_hash: '******',
+      email: profile.emails[0].value,
+      full_name: profile.displayName,
+      provider: 'facebook',
+      status: 0
+    }).save();
+    done(null, newUser);
   }));
 
-// Route handlers
-const index = (req, res, next) => {
-  passport.authenticate('facebook', { scope: 'email' })(req, res, next);
-};
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
 
-const callback = (req, res, next) => {
-  passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/error' })(req, res, next);
-};
-
-module.exports = { index, callback };
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id);
+  done(null, user);
+});

@@ -1,12 +1,15 @@
 const express = require("express");
 const path = require("path");
 const routes = require("./routes");
+const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const {limiter} = require('./middleware/RateLimit')
 
 require('dotenv').config();
+require('./app/controllers/social/FacebookController')
+require('./app/controllers/social/GoogleController')
 // const mySQL = require("./config/db/mySQL");
 const mongoDB = require('./config/db/mongoDB')
 const app = express();
@@ -27,13 +30,11 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const maleList = []
 const femaleList = []
-
-app.get("/", (req, res) => {
-  res.send('index.html')
-})
 
 routes(app);
 
