@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
     oppositeGender: {
       type: Number,
       required: false,
-      enum: [0, 1],
+      enum: [0, 1, 2],
     },
     avatar: {
       type: mongoose.Schema.Types.ObjectId,
