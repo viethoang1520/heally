@@ -32,14 +32,14 @@ function configureSocketIO(server, maleList, femaleList) {
       const oppositeGender = userData.oppositeGender
       const maleLength = maleList.length
       const femaleLength = femaleList.length
-      // if a man finds a woman/ anyone but no one available
+      // if a man finds someone but no one available
       if (userGender === MALE && femaleLength < 1) {
         if ((oppositeGender === FEMALE) || ((oppositeGender === BOTH || oppositeGender === MALE) && maleLength < 1)) {
           maleList.push({ userData, socket })
           return
         }
       }
-      // if a woman finds a man/ anyone but no one available
+      // if a woman finds someone but no one available
       if (userGender === FEMALE && maleLength < 1) {
         if ((oppositeGender === MALE) || ((oppositeGender === BOTH || oppositeGender === FEMALE) && femaleLength < 1)) {
           femaleList.push({ userData, socket })
@@ -105,7 +105,7 @@ function configureSocketIO(server, maleList, femaleList) {
 
     socket.on('new message', (newMessageReceive) => {
       let chat = newMessageReceive.chatID;
-      chat.message = filterMessage(chat.message)
+      newMessageReceive.message = filterMessage(newMessageReceive.message)
       if (!chat.users) {
         console.log('chats.users is not defined');
       }
