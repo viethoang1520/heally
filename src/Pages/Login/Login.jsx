@@ -2,7 +2,7 @@ import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { facebookLogin, isValidUser, loginUser } from '../../apis/authentication';
+import { isValidUser, loginUser } from '../../apis/authentication';
 import Logo from '../../assets/logo-with-text.png';
 import { LoadingVocado } from '../../Components';
 import { AppContext } from '../../Context/AppContext';
@@ -11,7 +11,6 @@ import { toast } from 'sonner';
 import { Row, Col, Flex } from 'antd';
 import AvocadoHiPhoto from '../../assets/avocado-sayhi.png';
 import { TypeAnimation } from 'react-type-animation';
-import FacebookLogin from 'react-facebook-login';
 
 function Login() {
      const navigate = useNavigate();
@@ -96,21 +95,6 @@ function Login() {
           }
      }, [token]);
 
-
-     const handleFacebookCallback = (response) => {
-          if (response?.status === "unknown") {
-               console.error('Sorry!', 'Something went wrong with facebook Login.');
-               return;
-          }
-          console.log(response);
-     }
-
-     const handleFacebookLogin = async () => {
-          const res = await facebookLogin();
-          console.log(res);
-     }
-
-
      return (
           <div className="login-page">
                <Row align='center' className="login-block">
@@ -181,13 +165,6 @@ function Login() {
                                    repeat={Infinity}
                               />
                               <img className='avocado-hi' src={AvocadoHiPhoto} alt="" />
-                              <button onClick={handleFacebookLogin}>fb</button>
-                              <FacebookLogin
-                                   buttonStyle={{ padding: "6px" }}
-                                   appId="315157754999846"  // we need to get this from facebook developer console by setting the app.
-                                   autoLoad={false}
-                                   fields="name,email,picture"
-                                   callback={handleFacebookCallback} />
                          </Flex>
                     </Col>
                </Row>
