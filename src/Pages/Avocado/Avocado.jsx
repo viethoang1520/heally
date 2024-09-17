@@ -62,7 +62,7 @@ function Avocado() {
                     toast.error('Tìm kiếm sẽ bị hủy nếu bạn rời đi');
                }
           }
-     }, [flagFirstTime]);
+     }, []);
 
      return (
           <div className="avocado">

@@ -3,15 +3,16 @@ import classNames from "classnames/bind";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './Header.scss';
 import mainLogo from '../../assets/logo-heally.png';
-import { memo, useCallback, useContext } from 'react';
+import { memo, useCallback, useContext, useState } from 'react';
 import { AppContext } from '../../Context/AppContext';
 import { toast } from 'sonner';
+import { isValidUser } from '../../apis/authentication';
 // import { isValidUser } from '../../apis/authentication';
 
 function Header() {
      const navigate = useNavigate();
      const { setUserLogin } = useContext(AppContext);
-     // const [isSpam, setIsSpam] = useState(false);
+     const [isSpam, setIsSpam] = useState(false);
 
      const handleClickTest = useCallback(() => {
           toast.success(`Đăng xuất thành công`);
@@ -21,13 +22,13 @@ function Header() {
           setUserLogin();
      }, []);
 
-     // const handleSpam = async () => {
-     //      setIsSpam(true);
-     //      while (isSpam) {
-     //           const { data } = await isValidUser();
-     //           console.log('Spam');
-     //      }
-     // }
+     const handleSpam = async () => {
+          setIsSpam(true);
+          while (isSpam) {
+               const res = await isValidUser();
+               console.log(res);
+          }
+     }
 
      return (
           <header className="header">
@@ -106,9 +107,9 @@ function Header() {
                     <button onClick={handleClickTest}>LOG</button>
                </div>
 
-               {/* <div className="other-btn">
+               <div className="other-btn">
                     <button onClick={handleSpam}>SPAM</button>
-               </div> */}
+               </div>
           </header>
      );
 }

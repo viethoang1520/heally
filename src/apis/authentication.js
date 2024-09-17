@@ -53,3 +53,10 @@ export const isValidUser = async () => {
      }
 }
 
+export const facebookLogin = async () => {
+     try {
+          return await axios.get('http://localhost:3000/auth/facebook');
+     } catch (error) {
+          console.log('Error at facebookLogin: ' + error);
+     }
+}

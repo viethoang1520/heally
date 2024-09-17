@@ -2,13 +2,16 @@ import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import classNames from 'classnames';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { isValidUser, loginUser } from '../../apis/authentication';
+import { facebookLogin, isValidUser, loginUser } from '../../apis/authentication';
 import Logo from '../../assets/logo-with-text.png';
 import { LoadingVocado } from '../../Components';
 import { AppContext } from '../../Context/AppContext';
 import './Login.scss';
 import { toast } from 'sonner';
-import { Row, Col } from 'antd';
+import { Row, Col, Flex } from 'antd';
+import AvocadoHiPhoto from '../../assets/avocado-sayhi.png';
+import { TypeAnimation } from 'react-type-animation';
+import FacebookLogin from 'react-facebook-login';
 
 function Login() {
      const navigate = useNavigate();
@@ -93,63 +96,102 @@ function Login() {
           }
      }, [token]);
 
+
+     const handleFacebookCallback = (response) => {
+          if (response?.status === "unknown") {
+               console.error('Sorry!', 'Something went wrong with facebook Login.');
+               return;
+          }
+          console.log(response);
+     }
+
+     const handleFacebookLogin = async () => {
+          const res = await facebookLogin();
+          console.log(res);
+     }
+
+
      return (
-          <Row align='center' className="login-page">
-               {showLoading && <LoadingVocado />}
-               <Col span={12} className='side-information'>
-               </Col>
-               <Col span={12}>
-                    <form className='login-form' onSubmit={handleLogin}>
-                         <img src={Logo} className='logo' alt="HEALLY LOGO" />
-                         <h1 className='title'>Chào mừng trở lại</h1>
-                         <div className={classNames('input-block', { 'incorrect': loginError.code == 1 })}>
-                              <label htmlFor="username" className='label username'>Tên đăng nhập</label>
-                              <input
-                                   type="text"
-                                   className="input username"
-                                   id='username'
-                                   value={formData.username}
-                                   name='username'
-                                   onChange={(e) => handleChangeInput(e)}
-                                   required
-                              />
-                         </div>
+          <div className="login-page">
+               <Row align='center' className="login-block">
+                    {showLoading && <LoadingVocado />}
+                    <Col xs={24} md={12}>
+                         <form className='login-form' onSubmit={handleLogin}>
+                              <img src={Logo} className='logo' alt="HEALLY LOGO" />
+                              <h1 className='title'>Chào mừng trở lại</h1>
+                              <div className={classNames('input-block', { 'incorrect': loginError.code == 1 })}>
+                                   <label htmlFor="username" className='label username'>Tên đăng nhập</label>
+                                   <input
+                                        type="text"
+                                        className="input username"
+                                        id='username'
+                                        value={formData.username}
+                                        name='username'
+                                        onChange={(e) => handleChangeInput(e)}
+                                        required
+                                   />
+                              </div>
 
-                         <div className={classNames('input-block', { 'incorrect': loginError.code == 1 }, { 'incorrect': loginError.code == 2 })}>
-                              <label htmlFor="password" className='label fullname'>Mật khẩu</label>
-                              <input
-                                   type={showPassword ? "text" : "password"}
-                                   className="input password"
-                                   id='password'
-                                   value={formData.password}
-                                   name='password'
-                                   onChange={(e) => handleChangeInput(e)}
-                                   required
-                              />
+                              <div className={classNames('input-block', { 'incorrect': loginError.code == 1 }, { 'incorrect': loginError.code == 2 })}>
+                                   <label htmlFor="password" className='label fullname'>Mật khẩu</label>
+                                   <input
+                                        type={showPassword ? "text" : "password"}
+                                        className="input password"
+                                        id='password'
+                                        value={formData.password}
+                                        name='password'
+                                        onChange={(e) => handleChangeInput(e)}
+                                        required
+                                   />
 
-                              <span className='incorrect-msg'>{loginError.msg}</span>
-                              <Icon
-                                   icon="mdi:eye"
-                                   className={classNames('icon', { 'hide': !showPassword })}
-                                   onClick={handleShowPassword}
-                                   title='Hiện mật khẩu'
-                              />
-                              <Icon
-                                   icon="mdi:eye-off"
-                                   className={classNames('icon', { 'hide': showPassword })}
-                                   onClick={handleShowPassword}
-                                   title='Ẩn mật khẩu'
-                              />
-                         </div>
+                                   <span className='incorrect-msg'>{loginError.msg}</span>
+                                   <Icon
+                                        icon="mdi:eye"
+                                        className={classNames('icon', { 'hide': !showPassword })}
+                                        onClick={handleShowPassword}
+                                        title='Hiện mật khẩu'
+                                   />
+                                   <Icon
+                                        icon="mdi:eye-off"
+                                        className={classNames('icon', { 'hide': showPassword })}
+                                        onClick={handleShowPassword}
+                                        title='Ẩn mật khẩu'
+                                   />
+                              </div>
 
-                         <button className={classNames('button-login', { 'disable': !isValidate })}>Đăng nhập</button>
+                              <button className={classNames('button-login', { 'disable': !isValidate })}>Đăng nhập</button>
 
-                         <p className='sign-up-text'>
-                              Chưa có tài khoản? <Link className='sign-up-link' to='/signup'>Đăng ký</Link>
-                         </p>
-                    </form>
-               </Col>
-          </Row>
+                              <p className='sign-up-text'>
+                                   Chưa có tài khoản? <Link className='sign-up-link' to='/signup'>Đăng ký</Link>
+                              </p>
+                         </form>
+                    </Col>
+
+                    <Col xs={0} md={12} className='side-information' >
+                         <Flex justify='center' align='center' vertical style={{ width: '100%', height: '100%' }}>
+                              <TypeAnimation
+                                   sequence={[
+                                        'Heally xin chào!', 2500, 'Hello!',
+                                        2500, 'こんにちは!', 2500, 'Bonjour!', 2500, '안녕하세요!', 2500,
+                                        'Olá!', 2500, 'Hallo!', 2500, '你好!', 2500, 'สวัสดี!', 2500
+                                   ]}
+                                   wrapper="span"
+                                   speed={30}
+                                   style={{ fontSize: '3em', fontWeight: '600', opacity: '70%', display: 'inline-block' }}
+                                   repeat={Infinity}
+                              />
+                              <img className='avocado-hi' src={AvocadoHiPhoto} alt="" />
+                              <button onClick={handleFacebookLogin}>fb</button>
+                              <FacebookLogin
+                                   buttonStyle={{ padding: "6px" }}
+                                   appId="315157754999846"  // we need to get this from facebook developer console by setting the app.
+                                   autoLoad={false}
+                                   fields="name,email,picture"
+                                   callback={handleFacebookCallback} />
+                         </Flex>
+                    </Col>
+               </Row>
+          </div>
      );
 }
 
