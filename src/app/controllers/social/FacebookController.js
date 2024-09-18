@@ -7,7 +7,7 @@ passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
   callbackURL: "/auth/facebook/callback",
-  profileFields: ['id', 'emails', 'name']
+  profileFields: ['id', 'emails', 'displayName']
 },
   async (accessToken, refreshToken, profile, done) => {
     // Check if user already exists in our db
