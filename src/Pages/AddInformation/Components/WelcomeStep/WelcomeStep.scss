@@ -29,6 +29,7 @@
           text-transform: uppercase;
           overflow: hidden;
           border-radius: 5px; 
+          cursor: pointer;
 
           &::before {
                content: '';

@@ -6,19 +6,20 @@
      align-items: center;
      position: fixed;
      top: 0;
+     background-image: url(../../assets/bg-scene-add-infor.svg);
+     background-repeat: no-repeat;
+     background-size: cover;
 
      &.overlay {
           width: 100vw;
           height: 100vh;
-          // background-color: rgba(126, 126, 126, 0.104);
-          
      }
 
      .add-information-modal {
           width: 1200px;
           height: 600px;
-          background: rgba(235, 252, 244, 0.48);
-          backdrop-filter: blur(16px);
+          background: rgba(255, 255, 255, 0.614);
+          backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(16px);
           border-radius: 16px;
           box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -39,6 +40,7 @@
                     text-align: right;
                     transition: all 0.4s ease;
                     border: 1px solid $theme-color-primary;
+                    cursor: pointer;
 
                     &:hover {
                          background-color: $theme-color-primary;
@@ -67,6 +69,7 @@
 
                          &:hover {
                               background-color: transparent;
+
                               svg {
                                    transform: translateX(0);
                               }

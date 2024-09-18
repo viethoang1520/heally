@@ -9,7 +9,7 @@ import { AppContext } from '../../Context/AppContext';
 import './Login.scss';
 import { toast } from 'sonner';
 import { Row, Col, Flex } from 'antd';
-import AvocadoHiPhoto from '../../assets/avocado-sayhi.png';
+// import AvocadoHiPhoto from '../../assets/avocado-sayhi.png';
 import { TypeAnimation } from 'react-type-animation';
 
 function Login() {
@@ -52,10 +52,7 @@ function Login() {
                     setFormData({ ...formData, password: '' });
                }
                setShowLoading(false);
-          } else {
-               setLoginError({code: 1, msg: '*Vui lòng không bỏ trống'})
           }
-
      }
 
      useEffect(() => {
@@ -168,11 +165,11 @@ function Login() {
 
                               <p className='text-or'>hoặc</p>
                               <div className="social-login-block">
-                                   <button onClick={handleGoogleLogin} className="button facebook">
+                                   <button onClick={handleFacebookLogin} className="button facebook">
                                         <Icon className='icon' icon="logos:facebook" />
                                    </button>
 
-                                   <button onClick={handleFacebookLogin} className="button google">
+                                   <button onClick={handleGoogleLogin} className="button google">
                                         <Icon className='icon google' icon="logos:google-icon" />
                                    </button>
                               </div>
@@ -181,7 +178,6 @@ function Login() {
                                    Chưa có tài khoản? <Link className='login-link' to='/signup'>Đăng ký</Link>
                               </p>
                          </form>
-
                     </Col>
 
                     <Col xs={0} md={12} className='side-information' >

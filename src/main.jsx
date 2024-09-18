@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.Fragment>
     <AppProvider>
       <ChatProvider>
-        <ConfigProvider theme={{ token: { fontSize: 16 } }}>
+        <ConfigProvider theme={{ token: { fontSize: 16, "colorPrimary": "#00DD73", } }}>
           <GlobalStyles>
             <App />
             <Toaster richColors={true} position="top-center" closeButton={true} toastOptions={{ style: { padding: "22px", } }} />

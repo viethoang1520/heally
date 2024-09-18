@@ -1,27 +1,33 @@
 import { useContext } from 'react';
 import { AppContext } from '../../Context/AppContext';
-import UserCard from './Components/UserCard/UserCard';
 import './Profile.scss';
+import { Row, Col, Button } from 'antd';
 
 function Profile() {
      const { userLogin } = useContext(AppContext);
+     console.log(userLogin);
 
      return (
           <div className="profile-page">
-               {/* <Container>
+               <div className="btn-block">
+                    <Button type="primary">Primary Button</Button>
+                    <Button>Default Button</Button>
+                    <Button type="text" danger>
+                         Text
+                    </Button>
+               </div>
+
+               <div className="container user-infor-top">
                     <Row>
-                         <Col md={4} className='user-card-block'>
-                              <UserCard
-                                   avatar={userLogin.avatar.link}
-                                   fullname={userLogin.full_name}
-                                   nickname={userLogin.nickname}
-                                   location={userLogin.location}
-                                   friends={userLogin.friends}
-                                   rating={userLogin.rating}
-                              />
+                         <Col md={3} className='avatar-block'>
+                              <img className='avatar-img' src={userLogin.avatar.link} alt="" />
+                         </Col>
+
+                         <Col md={10}>
+                              <h1>alo</h1>
                          </Col>
                     </Row>
-               </Container> */}
+               </div>
           </div>
      );
 }
