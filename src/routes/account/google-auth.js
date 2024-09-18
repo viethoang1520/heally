@@ -33,7 +33,7 @@ router.get('/callback',
     const token = jwt.sign({ id: req.user._id, username, email }, process.env.JWT_SECRET, {
       expiresIn: '20d',
     });
-    res.json({ "error_code": "0", "message": "success google login", token })
+    return res.redirect(`${process.env.CLIENT_URL}?token=${token}`);
   });
 
 router.get('/logout', (req, res) => {
