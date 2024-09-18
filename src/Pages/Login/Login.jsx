@@ -32,25 +32,30 @@ function Login() {
 
      const handleLogin = async (e) => {
           e.preventDefault();
-          setShowLoading(true);
-          const { data } = await loginUser(formData);
-          if (data.error_code === 0) {
-               localStorage.setItem('token', JSON.stringify(data.token));
-               const res = await isValidUser();
-               sessionStorage.setItem('userLogin', JSON.stringify(res.data.user));
-               setUserLogin(res.data.user);
-               if (res.data.user.status === 0) {
-                    toast.success(`Đăng nhập thành công! Vui lòng hoàn thành thông tin để tiếp tục`);
-                    navigate('/addinformation');
+          if (isValidate) {
+               setShowLoading(true);
+               const { data } = await loginUser(formData);
+               if (data.error_code === 0) {
+                    localStorage.setItem('token', JSON.stringify(data.token));
+                    const res = await isValidUser();
+                    sessionStorage.setItem('userLogin', JSON.stringify(res.data.user));
+                    setUserLogin(res.data.user);
+                    if (res.data.user.status === 0) {
+                         toast.success(`Đăng nhập thành công! Vui lòng hoàn thành thông tin để tiếp tục`);
+                         navigate('/addinformation');
+                    } else {
+                         toast.success(`Chào mừng ${res.data.user.full_name}`);
+                         navigate('/chat');
+                    }
                } else {
-                    toast.success(`Chào mừng ${res.data.user.full_name}`);
-                    navigate('/chat');
+                    setLoginError({ code: data.error_code, msg: data.message });
+                    setFormData({ ...formData, password: '' });
                }
+               setShowLoading(false);
           } else {
-               setLoginError({ code: data.error_code, msg: data.message });
-               setFormData({ ...formData, password: '' });
+               setLoginError({code: 1, msg: '*Vui lòng không bỏ trống'})
           }
-          setShowLoading(false);
+
      }
 
      useEffect(() => {
@@ -67,11 +72,29 @@ function Login() {
           }
      }, [formData]);
 
+     const handleGoogleLogin = () => {
+          window.open('http://localhost:3000/auth/google', '_self');
+     }
+
+     const handleFacebookLogin = () => {
+          window.open('http://localhost:3000/auth/facebook', '_self');
+     }
+
+     useEffect(() => {
+          const params = new URLSearchParams(window.location.search);
+          const token = params.get('token');
+
+          if (token) {
+               localStorage.setItem('token', JSON.stringify(token));
+               const res = isValidUser();
+               console.log(res);
+          }
+     }, []);
+
      useEffect(() => {
           const fetchUserData = async () => {
                setShowLoading(true);
                const { data } = await isValidUser();
-               console.log(data);
                if (data.error_code === 0) {
                     localStorage.setItem('token', JSON.stringify(data.token));
                     if (data.user.status === 0) {
@@ -112,7 +135,6 @@ function Login() {
                                         value={formData.username}
                                         name='username'
                                         onChange={(e) => handleChangeInput(e)}
-                                        required
                                    />
                               </div>
 
@@ -125,7 +147,6 @@ function Login() {
                                         value={formData.password}
                                         name='password'
                                         onChange={(e) => handleChangeInput(e)}
-                                        required
                                    />
 
                                    <span className='incorrect-msg'>{loginError.msg}</span>
@@ -145,10 +166,22 @@ function Login() {
 
                               <button className={classNames('button-login', { 'disable': !isValidate })}>Đăng nhập</button>
 
-                              <p className='sign-up-text'>
-                                   Chưa có tài khoản? <Link className='sign-up-link' to='/signup'>Đăng ký</Link>
+                              <p className='text-or'>hoặc</p>
+                              <div className="social-login-block">
+                                   <button onClick={handleGoogleLogin} className="button facebook">
+                                        <Icon className='icon' icon="logos:facebook" />
+                                   </button>
+
+                                   <button onClick={handleFacebookLogin} className="button google">
+                                        <Icon className='icon google' icon="logos:google-icon" />
+                                   </button>
+                              </div>
+
+                              <p className='login-text'>
+                                   Chưa có tài khoản? <Link className='login-link' to='/signup'>Đăng ký</Link>
                               </p>
                          </form>
+
                     </Col>
 
                     <Col xs={0} md={12} className='side-information' >
@@ -164,7 +197,7 @@ function Login() {
                                    style={{ fontSize: '3em', fontWeight: '600', opacity: '70%', display: 'inline-block' }}
                                    repeat={Infinity}
                               />
-                              <img className='avocado-hi' src={AvocadoHiPhoto} alt="" />
+                              {/* <img className='avocado-hi' src={AvocadoHiPhoto} alt="" /> */}
                          </Flex>
                     </Col>
                </Row>

@@ -53,6 +53,15 @@ export const isValidUser = async () => {
      }
 }
 
+export const getUserInformation = async () => {
+     try {
+          const token = localStorage.getItem('token');
+          return await axiosClient(token).get(`/user/valid`);
+     } catch (error) {
+          console.log('Error at isValidUser: ' + error);
+     }
+}
+
 export const facebookLogin = async () => {
      try {
           return await axios.get('http://localhost:3000/auth/facebook');
