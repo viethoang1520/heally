@@ -30,5 +30,8 @@
     "passport-google-oauth20": "^2.0.0",
     "sequelize": "^6.37.3",
     "socket.io": "^4.7.5"
+  },
+  "dependencies": {
+    "cookie-session": "^2.1.0"
   }
 }

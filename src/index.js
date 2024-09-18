@@ -5,7 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const {limiter} = require('./middleware/RateLimit')
+const { limiter } = require('./middleware/RateLimit')
 
 require('dotenv').config();
 require('./app/controllers/social/FacebookController')
@@ -22,7 +22,22 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(cors());
+//--------------------------------------------------------------
+// const cookieSession = require('cookie-session')
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  methods: "GET, POST, PUT, DELETE",
+  credentials: true,
+}));
+
+// app.use(
+//   cookieSession({
+//     name: "session",
+//     keys: ["lama"],
+//     maxAge: 24 * 60 * 60 * 1000
+//   })
+// )
+//--------------------------------------------------------------
 app.set("views", path.join(__dirname, "resources", "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({

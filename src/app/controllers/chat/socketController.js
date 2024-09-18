@@ -105,7 +105,7 @@ function configureSocketIO(server, maleList, femaleList) {
 
     socket.on('new message', (newMessageReceive) => {
       let chat = newMessageReceive.chatID;
-      newMessageReceive.message = filterMessage(newMessageReceive.message)
+      // newMessageReceive.message = filterMessage(newMessageReceive.message)
       if (!chat.users) {
         console.log('chats.users is not defined');
       }
