@@ -81,10 +81,19 @@ function Login() {
           const params = new URLSearchParams(window.location.search);
           const token = params.get('token');
 
+          const fetchUserData = async () => {
+               const { data } = await isValidUser();
+               if (data.error_code == 0) {
+                    setUserLogin(data.user);
+                    sessionStorage.setItem('userLogin', JSON.stringify(data.user));
+               }
+          }
+
           if (token) {
                localStorage.setItem('token', JSON.stringify(token));
-               const res = isValidUser();
-               console.log(res);
+               // const {data} = isValidUser();
+               // console.log(data);
+               fetchUserData();
           }
      }, []);
 
