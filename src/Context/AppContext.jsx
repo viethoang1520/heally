@@ -24,7 +24,7 @@ export const AppProvider = ({ children }) => {
                }
                setIsLoading(false);
           }
-          if (JSON.parse(token)) {
+          if (token) {
                fetchUserToken();
           } else {
                setUserLogin();

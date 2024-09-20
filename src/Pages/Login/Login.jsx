@@ -8,8 +8,9 @@ import { LoadingVocado } from '../../Components';
 import { AppContext } from '../../Context/AppContext';
 import './Login.scss';
 import { toast } from 'sonner';
-import { Row, Col, Flex } from 'antd';
+import { Row, Col, Flex, Tooltip } from 'antd';
 // import AvocadoHiPhoto from '../../assets/avocado-sayhi.png';
+import avocadoTyping from '../../assets/avocado-typing.jpg';
 import { TypeAnimation } from 'react-type-animation';
 
 function Login() {
@@ -20,7 +21,6 @@ function Login() {
      const [formData, setFormData] = useState({ username: '', password: '' });
      const [isValidate, setIsValidate] = useState(false);
      const { setUserLogin } = useContext(AppContext);
-     const token = localStorage.getItem('token');
 
      const handleChangeInput = (e) => {
           setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,37 +30,6 @@ function Login() {
           setShowPassword(!showPassword);
      }
 
-     const handleLogin = async (e) => {
-          e.preventDefault();
-          if (isValidate) {
-               setShowLoading(true);
-               const { data } = await loginUser(formData);
-               if (data.error_code === 0) {
-                    localStorage.setItem('token', JSON.stringify(data.token));
-                    const res = await isValidUser();
-                    sessionStorage.setItem('userLogin', JSON.stringify(res.data.user));
-                    setUserLogin(res.data.user);
-                    if (res.data.user.status === 0) {
-                         toast.success(`Đăng nhập thành công! Vui lòng hoàn thành thông tin để tiếp tục`);
-                         navigate('/addinformation');
-                    } else {
-                         toast.success(`Chào mừng ${res.data.user.full_name}`);
-                         navigate('/chat');
-                    }
-               } else {
-                    setLoginError({ code: data.error_code, msg: data.message });
-                    setFormData({ ...formData, password: '' });
-               }
-               setShowLoading(false);
-          }
-     }
-
-     useEffect(() => {
-          if (loginError.code === 3) {
-               toast.error(loginError.msg);
-          }
-     }, [loginError]);
-
      useEffect(() => {
           if (formData.password !== '' && formData.username !== '') {
                setIsValidate(true);
@@ -69,69 +38,84 @@ function Login() {
           }
      }, [formData]);
 
+     const checkUserStatus = async (token) => {
+          localStorage.setItem('token', token);
+          const { data } = await isValidUser();
+          sessionStorage.setItem('userLogin', JSON.stringify(data.user));
+          setUserLogin(data.user);
+          if (data.user.status === 0) {
+               toast.success(`Đăng nhập thành công! Vui lòng hoàn thành thông tin để tiếp tục`);
+               navigate('/addinformation');
+          } else {
+               toast.success(`Chào mừng ${data.user.full_name}`);
+               navigate('/chat');
+          }
+     }
+
+     const handleLogin = async (e) => {
+          e.preventDefault();
+          if (isValidate) {
+               setShowLoading(true);
+               const { data } = await loginUser(formData);
+               if (data.error_code === 0) {
+                    checkUserStatus(data.token);
+               } else if (data.error_code === 3) {
+                    toast.error(loginError.msg);
+               } else {
+                    setLoginError({ code: data.error_code, msg: data.message });
+                    setFormData({ ...formData, password: '' });
+               }
+               setShowLoading(false);
+          }
+     }
+
      const handleGoogleLogin = () => {
+          setShowLoading(true);
           window.open('http://localhost:3000/auth/google', '_self');
      }
 
      const handleFacebookLogin = () => {
+          setShowLoading(true);
           window.open('http://localhost:3000/auth/facebook', '_self');
      }
 
      useEffect(() => {
           const params = new URLSearchParams(window.location.search);
           const token = params.get('token');
-
-          const fetchUserData = async () => {
-               const { data } = await isValidUser();
-               if (data.error_code == 0) {
-                    setUserLogin(data.user);
-                    sessionStorage.setItem('userLogin', JSON.stringify(data.user));
-               }
-          }
-
           if (token) {
-               localStorage.setItem('token', JSON.stringify(token));
-               // const {data} = isValidUser();
-               // console.log(data);
+               localStorage.setItem('token', token);
+          }
+          setShowLoading(false);
+     }, []);
+
+     useEffect(() => {
+          const token = localStorage.getItem('token');
+          const fetchUserData = async () => {
+               setShowLoading(true);
+               const { data } = await isValidUser();
+               const res = await isValidUser();
+               console.log(res);
+               if (data.error_code === 0) {
+                    checkUserStatus(data.token);
+               } else {
+                    toast.error('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!');
+               }
+               setShowLoading(false);
+          }
+          if (token) {
                fetchUserData();
           }
      }, []);
 
-     useEffect(() => {
-          const fetchUserData = async () => {
-               setShowLoading(true);
-               const { data } = await isValidUser();
-               if (data.error_code === 0) {
-                    localStorage.setItem('token', JSON.stringify(data.token));
-                    if (data.user.status === 0) {
-                         toast.info(`Vui lòng hoàn thành thông tin để tiếp tục`);
-                         setUserLogin(data.user);
-                         sessionStorage.setItem('userLogin', JSON.stringify(data.user));
-                         navigate('/addinformation');
-                    } else {
-                         sessionStorage.setItem('userLogin', JSON.stringify(data.user));
-                         setUserLogin(data.user);
-                         toast.success(`Chào mừng ${data.user.full_name}`);
-                         navigate('/chat');
-                    }
-               } else {
-                    toast.error('Vui lòng đăng nhập lại để tiếp tục');
-               }
-               setShowLoading(false);
-          }
-          if (JSON.parse(token)) {
-               fetchUserData();
-          }
-     }, [token]);
-
      return (
           <div className="login-page">
+               <img src={Logo} className='logo-top' alt="HEALLY LOGO" />
                <Row align='center' className="login-block">
                     {showLoading && <LoadingVocado />}
-                    <Col xs={24} md={12}>
+                    <Col xs={24} md={13}>
                          <form className='login-form' onSubmit={handleLogin}>
-                              <img src={Logo} className='logo' alt="HEALLY LOGO" />
-                              <h1 className='title'>Chào mừng trở lại</h1>
+                              {/* <img src={Logo} className='logo' alt="HEALLY LOGO" /> */}
+                              <h1 className='title'>Đăng nhập</h1>
                               <div className={classNames('input-block', { 'incorrect': loginError.code == 1 })}>
                                    <label htmlFor="username" className='label username'>Tên đăng nhập</label>
                                    <input
@@ -156,23 +140,25 @@ function Login() {
                                    />
 
                                    <span className='incorrect-msg'>{loginError.msg}</span>
-                                   <Icon
-                                        icon="mdi:eye"
-                                        className={classNames('icon', { 'hide': !showPassword })}
-                                        onClick={handleShowPassword}
-                                        title='Hiện mật khẩu'
-                                   />
-                                   <Icon
-                                        icon="mdi:eye-off"
-                                        className={classNames('icon', { 'hide': showPassword })}
-                                        onClick={handleShowPassword}
-                                        title='Ẩn mật khẩu'
-                                   />
+                                   <Tooltip title='Hiện mật khẩu'>
+                                        <Icon
+                                             icon="mdi:eye"
+                                             className={classNames('icon', { 'hide': !showPassword })}
+                                             onClick={handleShowPassword}
+                                        />
+                                   </Tooltip>
+                                   <Tooltip title='Ẩn mật khẩu'>
+                                        <Icon
+                                             icon="mdi:eye-off"
+                                             className={classNames('icon', { 'hide': showPassword })}
+                                             onClick={handleShowPassword}
+                                        />
+                                   </Tooltip>
                               </div>
 
                               <button className={classNames('button-login', { 'disable': !isValidate })}>Đăng nhập</button>
 
-                              <p className='text-or'>hoặc</p>
+                              <p className='text-or'>hoặc đăng nhập với</p>
                               <div className="social-login-block">
                                    <button onClick={handleFacebookLogin} className="button facebook">
                                         <Icon className='icon' icon="logos:facebook" />
@@ -189,20 +175,21 @@ function Login() {
                          </form>
                     </Col>
 
-                    <Col xs={0} md={12} className='side-information' >
+                    <Col xs={0} md={10} className='side-information' >
                          <Flex justify='center' align='center' vertical style={{ width: '100%', height: '100%' }}>
                               <TypeAnimation
                                    sequence={[
-                                        'Heally xin chào!', 2500, 'Hello!',
-                                        2500, 'こんにちは!', 2500, 'Bonjour!', 2500, '안녕하세요!', 2500,
-                                        'Olá!', 2500, 'Hallo!', 2500, '你好!', 2500, 'สวัสดี!', 2500
+                                        'Xin chào!', 3000, 'Hello!',
+                                        3000, 'こんにちは', 3000, 'Bonjour!', 3000, '안녕하세요', 3000,
+                                        'Olá!', 3000, 'Hallo!', 3000, '你好', 3000, 'สวัสดี', 3000
                                    ]}
                                    wrapper="span"
-                                   speed={30}
-                                   style={{ fontSize: '3em', fontWeight: '600', opacity: '70%', display: 'inline-block' }}
+                                   speed={20}
+                                   style={{ fontSize: '3em', fontWeight: '600', opacity: '60%', display: 'inline-block', fontFamily: "Playwrite CU, cursive" }}
                                    repeat={Infinity}
                               />
-                              {/* <img className='avocado-hi' src={AvocadoHiPhoto} alt="" /> */}
+                              {/* <img src={Logo} className='logo' alt="HEALLY LOGO" /> */}
+                              <Tooltip title='Heally xin chào bạn ^^'><img className='avocado-hi' src={avocadoTyping} alt="" /></Tooltip>
                          </Flex>
                     </Col>
                </Row>

@@ -5,10 +5,16 @@
      background-repeat: no-repeat;
      background-size: cover;
 
+     .logo-top {
+          position: fixed;
+          width: 65px;
+          left: 10px;
+          top: 0;
+     }
+
      .login-block {
           animation: slideFromBottom 0.4s ease-out forwards;
           height: 100vh;
-          // width: 100vw;
           max-width: 920px;
           margin: 0 auto;
           display: flex;
@@ -16,20 +22,26 @@
 
           .side-information {
                height: 500px;
+               width: 400px;
                box-shadow: 10px 0 20px 2px rgba(0, 0, 0, 0.086);
                z-index: 0;
                border-radius: 0 17px 17px 0;
                background-color: $bg-primary;
 
                .avocado-hi {
-                    width: 60%;
+                    width: 70%;
                     align-self: center;
                     transition: 0.3s;
                     margin-top: 20px;
+                    cursor: pointer;
 
                     &:hover {
                          transform: scale(1.03);
                     }
+               }
+
+               .logo {
+                    width: 50%;
                }
 
                .title {
@@ -47,9 +59,8 @@
                border-radius: 17px;
                box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.132);
                border: 1px solid rgba(209, 213, 219, 0.3);
-               // width: min(450px, 100%);
-               max-width: 480px;
-               height: 600px;
+               max-width: 498px;
+               height: 550px;
                margin: 0 auto;
                padding: 15px 0;
                text-align: center;
@@ -64,7 +75,7 @@
                .title {
                     font-size: 2.7rem;
                     font-weight: 700;
-                    margin-bottom: 40px;
+                    margin: 40px;
                     opacity: 90%;
                     user-select: none;
                }
@@ -182,6 +193,7 @@
 
                .text-or {
                     margin: 20px;
+                    opacity: 80%;
                }
 
                .social-login-block {
@@ -206,33 +218,13 @@
                          }
 
                          .icon {
-                              font-size: 3rem;
+                              font-size: 2.8rem;
                          }
 
                          &.facebook {
                               padding: 8px 7px 8px 8.5px;
                          }
                     }
-               }
-          }
-
-          &.gradient-background {
-               background: linear-gradient(280deg, #91eaaf8c, #2e6d41ab, #c2e95690, #80ed9991, #b3eda9, #e8e400af, #62a32cb2, #9de95ea3, #35c46090);
-               background-size: 540% 540%;
-               animation: gradient-animation 40s ease infinite;
-          }
-
-          @keyframes gradient-animation {
-               0% {
-                    background-position: 0% 50%;
-               }
-
-               50% {
-                    background-position: 100% 50%;
-               }
-
-               100% {
-                    background-position: 0% 50%;
                }
           }
      }

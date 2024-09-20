@@ -8,7 +8,6 @@ function DefaultLayout({ children }) {
                <Col flex="55px"><Header /></Col>
                <Col flex="auto">{children}</Col>
           </Row>
-
      );
 }
 

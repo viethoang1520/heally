@@ -22,11 +22,26 @@ $light-grey: #c2cbc9;
 
 .App {
      &.light-theme {
+          //text:
           --text-primary: #333333;
-          --theme-color-primary: #009a6e;
+          --text-primary-contrast: #fff;
+
+          //theme:
+          --theme-color-primary: #85dd74;
+
+          //background:
           --bg-primary: #fff;
           --bg-secondary: #EEEEEE;
+          --bg-primary-contrast: #242526;
+
+          //accent:
           --accent-primary: #ffe38d;
+          --accent-primary-light: #ffe38d;
+          --accent-secondary: #6148aa;
+          
+          //hover:
+
+          //status:
      }
 
      &.dark-theme {
